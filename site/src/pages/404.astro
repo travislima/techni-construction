@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Page not found | Techni Construction"
+  description="That page doesn't exist. Find our projects, credentials and contact details from the home page."
+>
+  <section class="wrap nf">
+    <div class="kicker">404</div>
+    <h1 class="display">That page isn't here.</h1>
+    <p class="lede" style="margin:16px 0 32px">
+      The address may have changed when we rebuilt the site. Everything still
+      exists — start from one of these:
+    </p>
+    <div class="links">
+      <a href="/" class="btn btn-ink">Home</a>
+      <a href="/projects/" class="btn btn-brick">Our projects</a>
+      <a href="/contact/" class="link-underline" style="align-self:center">Contact the office →</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { padding-top: 96px; padding-bottom: 128px; }
+  .links { display: flex; gap: 14px; flex-wrap: wrap; }
+</style>

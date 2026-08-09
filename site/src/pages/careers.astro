@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+---
+
+<Base
+  title="Careers & Vacancies | Techni Construction"
+  description="Vacancies at Techni Construction, Gqeberha — site management, trades and administrative roles. Email a short CV; we keep details on file and contact candidates directly."
+>
+  <section aria-label="Careers" class="narrow">
+    <div class="kicker">Careers &amp; vacancies</div>
+    <h1 class="display" style="font-size:clamp(38px,5vw,60px)">Build with a team that's been building since 1993.</h1>
+    <p class="lede intro">
+      Techni Construction employs 50+ site staff, 6 site managers and 4 office
+      staff across Nelson Mandela Bay — and develops SMME subcontractors
+      through skills transfer on every project. When we hire, vacancies are
+      listed here.
+    </p>
+    <div class="card">
+      <div class="card-head">CURRENT OPENINGS</div>
+      <p class="card-title">No open positions right now.</p>
+      <p class="card-copy">
+        We keep CVs on file for site management, trades and administrative
+        roles, and contact candidates directly when a position opens.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-head">LEAVE YOUR DETAILS</div>
+      <p class="card-copy" style="margin-bottom:20px">
+        Email a short CV with your trade or role in the subject line. No cover
+        letter needed.
+      </p>
+      <div class="cv-row">
+        <a href={`mailto:${SITE.email}?subject=${encodeURIComponent('CV — vacancies')}`} class="btn btn-ink">Email your CV</a>
+        <span class="cv-mail">{SITE.email}</span>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .narrow { max-width: 880px; margin: 0 auto; padding: 72px 32px 96px; }
+  .intro { margin: 18px 0 40px; max-width: 60ch; }
+  .card { border: 1px solid var(--line); background: var(--card); padding: 36px 32px; }
+  .card + .card { margin-top: 28px; }
+  .card-head { font: 600 12px var(--font-mono); letter-spacing: .16em; color: var(--brick); margin-bottom: 12px; }
+  .card-title { font: 600 18px var(--font-display); margin: 0 0 8px; }
+  .card-copy { font: 400 15px/1.65 var(--font-display); color: var(--body-2); margin: 0; }
+  .cv-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .cv-mail { font: 500 13.5px var(--font-mono); color: var(--meta); }
+  @media (max-width: 560px) { .narrow { padding-left: 20px; padding-right: 20px; } }
+</style>

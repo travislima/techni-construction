@@ -1,0 +1,40 @@
+{
+  "name": "House Venter",
+  "sector": "Residential",
+  "location": "Royalston, Gqeberha",
+  "size": "±550 m²",
+  "value": "R9 M",
+  "year": "2022",
+  "thumb": "../../assets/photos/thumb-venter.png",
+  "alt": "House Venter, upmarket double-storey dwelling in Royalston private game reserve",
+  "order": 1,
+  "caseStudy": {
+    "kicker": "RESIDENTIAL · ROYALSTON PRIVATE GAME RESERVE, GQEBERHA",
+    "heading": "A game-reserve build with an estate's rulebook",
+    "narrative": [
+      "Royalston is a private game reserve with strict architectural and environmental controls, and House Venter had to meet them at every stage — from material deliveries through a working reserve to finishes signed off against the estate's guidelines.",
+      "We built an upmarket double-storey dwelling of roughly 550 m² to the designs of Michael Jack Architects: stacked stone cladding, full-height glazing to the reserve side, and a terraced outdoor living level with pool.",
+      "Completed in 2022 at a contract value of R9 million. The client and architect are contactable as references on request."
+    ],
+    "architect": "Michael Jack Architects",
+    "valueLong": "R9 million",
+    "gallery": [
+      {
+        "src": "../../assets/photos/venter-1.jpg",
+        "alt": "House Venter seen from the garden — a double-storey home with stacked stone cladding and full-height glazing"
+      },
+      {
+        "src": "../../assets/photos/venter-2.jpg",
+        "alt": "Front elevation and entrance of House Venter"
+      },
+      {
+        "src": "../../assets/photos/venter-3.jpg",
+        "alt": "Living area interior of House Venter"
+      },
+      {
+        "src": "../../assets/photos/venter-4.jpg",
+        "alt": "Patio and pool terrace of House Venter"
+      }
+    ]
+  }
+}

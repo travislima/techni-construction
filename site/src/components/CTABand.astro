@@ -1,0 +1,55 @@
+---
+// The full-width call-to-action band used at the foot of most pages.
+// variant "brick" = enquiry band with phone; variant "ink" = dark band.
+import { SITE } from '../config';
+
+interface Props {
+  variant?: 'brick' | 'ink';
+  heading: string;
+  sub?: string;
+  showPhone?: boolean;
+}
+const { variant = 'brick', heading, sub, showPhone = true } = Astro.props;
+---
+
+<section class:list={['band', variant]} aria-label="Enquiry">
+  <div class="wrap inner">
+    <div>
+      <h2 class="heading">{heading}</h2>
+      {sub && <p class="sub">{sub}</p>}
+    </div>
+    <div class="actions">
+      {showPhone && <a href={SITE.phoneHref} class="phone">{SITE.phoneDisplay}</a>}
+      <slot>
+        <a href="/contact/" class:list={['btn', variant === 'brick' ? 'btn-white-on-brick' : 'btn-white']}>Request a quote</a>
+      </slot>
+    </div>
+  </div>
+</section>
+
+<style>
+  .band.brick { background: var(--brick); }
+  .band.ink { background: var(--ink); }
+  .inner {
+    padding-top: 76px;
+    padding-bottom: 76px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .heading {
+    font: 800 clamp(26px, 3vw, 38px)/1.1 var(--font-display);
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin: 0;
+    max-width: 26ch;
+    text-wrap: balance;
+  }
+  .sub { font: 400 16px/1.6 var(--font-display); color: rgba(255, 255, 255, 0.85); margin: 10px 0 0; }
+  .actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .phone { font: 600 20px var(--font-mono); color: #fff; text-decoration: none; letter-spacing: 0.02em; }
+  .band.brick .phone:hover { color: var(--brick-pale-2); }
+  .band.ink .phone:hover { color: #e0a294; }
+</style>

@@ -1,0 +1,75 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/photos/logo.png';
+import { SITE } from '../config';
+
+const nav = [
+  ['/projects/', 'Projects'],
+  ['/about/', 'About'],
+  ['/credentials/', 'Credentials'],
+  ['/careers/', 'Careers'],
+  ['/contact/', 'Contact'],
+];
+---
+
+<header>
+  <div class="bar wrap">
+    <a href="/" class="brand" aria-label="Techni Construction — home">
+      <Image src={logo} alt="Techni Construction logo" width={42} height={42} densities={[1, 2]} loading="eager" class="logo" />
+      <span class="wordmark">
+        <span class="w1">TECHNI</span>
+        <span class="w2">CONSTRUCTION</span>
+      </span>
+    </a>
+    <nav aria-label="Main">
+      {nav.map(([href, label]) => <a href={href}>{label}</a>)}
+    </nav>
+    <a href={SITE.phoneHref} class="phone">{SITE.phoneDisplay}</a>
+    <a href="/contact/" class="quote-btn">Request a quote</a>
+  </div>
+</header>
+
+<style>
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(245, 242, 237, 0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar { height: 74px; display: flex; align-items: center; gap: 40px; }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; flex: none; }
+  .logo { border-radius: 4px; }
+  .wordmark { display: flex; flex-direction: column; line-height: 1; }
+  .w1 { font: 800 17px var(--font-display); letter-spacing: 0.02em; color: var(--ink); }
+  .w2 { font: 600 9.5px var(--font-display); letter-spacing: 0.34em; color: var(--brick); }
+  nav { display: flex; gap: 28px; flex: 1; }
+  nav a { font: 500 14px var(--font-display); color: var(--ink); text-decoration: none; }
+  nav a:hover { color: var(--brick); }
+  .phone {
+    font: 500 13px var(--font-mono);
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    flex: none;
+  }
+  .phone:hover { color: var(--brick); }
+  .quote-btn {
+    font: 600 13.5px var(--font-display);
+    color: #fff;
+    background: var(--brick);
+    text-decoration: none;
+    padding: 11px 20px;
+    letter-spacing: 0.02em;
+    flex: none;
+  }
+  .quote-btn:hover { background: var(--brick-hover); color: #fff; }
+  @media (max-width: 900px) {
+    .bar { gap: 20px; height: auto; flex-wrap: wrap; padding-top: 12px; padding-bottom: 12px; }
+    nav { order: 3; flex-basis: 100%; gap: 18px; flex-wrap: wrap; }
+    .phone { display: none; }
+    .brand { margin-right: auto; }
+  }
+</style>

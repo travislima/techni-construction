@@ -1,0 +1,17 @@
+# 301s from every Google-indexed URL on the old WordPress site.
+# Works on Cloudflare Pages and Netlify. Review against a fresh
+# `site:techniconstruction.co.za` search just before cutover.
+/projects/residential-project-house-venter/ /projects/house-venter/ 301
+/projects/residential-project-house-venter /projects/house-venter/ 301
+/projects/residential-project-thorndale-lodge/ /projects/ 301
+/projects/residential-project-thorndale-lodge /projects/ 301
+/projects/commercial-project-south-city-office-block/ /projects/ 301
+/projects/commercial-project-south-city-office-block /projects/ 301
+/projects/commercial-project-nanaga/ /projects/ 301
+/projects/commercial-project-nanaga /projects/ 301
+/projects/industrial-project-steinbuild-walker-drive-buco/ /projects/ 301
+/projects/industrial-project-steinbuild-walker-drive-buco /projects/ 301
+/author/techni/ / 301
+/author/* / 301
+/wp-content/* / 301
+/feed/ / 301

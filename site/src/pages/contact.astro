@@ -1,0 +1,244 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+
+// Form delivery: set SITE.formspreeEndpoint in src/config.ts (free at
+// formspree.io). Until it's set, submissions fall back to a pre-filled
+// mailto: so no enquiry is ever silently lost.
+const endpoint = SITE.formspreeEndpoint;
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    '@id': `${SITE.url}/#business`,
+    name: SITE.name,
+    url: SITE.url,
+    telephone: '+27415817765',
+    email: SITE.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: `${SITE.address.street}, ${SITE.address.suburb}`,
+      addressLocality: 'Gqeberha',
+      addressRegion: 'Eastern Cape',
+      postalCode: SITE.address.postal,
+      addressCountry: 'ZA',
+    },
+    geo: { '@type': 'GeoCoordinates', latitude: SITE.address.lat, longitude: SITE.address.lng },
+    openingHours: 'Mo-Fr 07:30-16:30',
+  },
+];
+---
+
+<Base
+  title="Contact / Request a Quote | Techni Construction"
+  description="Request a construction quote from Techni Construction, Gqeberha — residential, commercial and industrial. We respond within one business day. 041 581 7765."
+  schema={schema}
+>
+  <section aria-label="Contact" class="wrap main">
+    <div>
+      <div class="kicker">Request a quote</div>
+      <h1 class="display" style="font-size:clamp(36px,4.4vw,56px)">Tell us about your project.</h1>
+      <p class="lede" style="font-size:16.5px;margin:14px 0 36px;max-width:54ch">
+        A few lines is enough to start. We respond within one business day.
+      </p>
+
+      <form
+        id="quote-form"
+        method="POST"
+        action={endpoint || undefined}
+        data-endpoint={endpoint}
+        data-email={SITE.email}
+      >
+        <div class="field">
+          <label for="f-name">Name *</label>
+          <input id="f-name" name="name" required autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="f-phone">Phone *</label>
+          <input id="f-phone" name="phone" type="tel" required autocomplete="tel" />
+        </div>
+        <div class="field span2">
+          <label for="f-email">Email *</label>
+          <input id="f-email" name="email" type="email" required autocomplete="email" />
+        </div>
+        <div class="field">
+          <label for="f-type">Project type *</label>
+          <select id="f-type" name="type" required>
+            <option value="">Select…</option>
+            <option>Residential</option>
+            <option>Commercial</option>
+            <option>Industrial</option>
+            <option>Renovation / alteration</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-budget">Approximate budget <span class="optional">(optional)</span></label>
+          <select id="f-budget" name="budget">
+            <option value="">Select…</option>
+            <option>Under R2 M</option>
+            <option>R2–10 M</option>
+            <option>R10–50 M</option>
+            <option>Over R50 M</option>
+            <option>Prefer not to say</option>
+          </select>
+        </div>
+        <div class="field span2">
+          <label for="f-msg">Message *</label>
+          <textarea id="f-msg" name="message" required rows="5" placeholder="Site location, what you want to build, timing…"></textarea>
+        </div>
+        <div class="span2 submit-row">
+          <button type="submit" class="btn btn-brick">Send enquiry</button>
+          <span class="submit-note">Goes straight to {SITE.email}</span>
+        </div>
+      </form>
+
+      <div id="form-success" role="status" hidden>
+        <div class="ok-head">Thank you — enquiry sent.</div>
+        <p>
+          We respond within one business day. If it's urgent, call
+          <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a> — {SITE.hours}.
+        </p>
+      </div>
+      <div id="form-error" role="alert" hidden>
+        <div class="err-head">That didn't send.</div>
+        <p>
+          Please try again, or email
+          <a href={`mailto:${SITE.email}`}>{SITE.email}</a> or call
+          <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a> directly.
+        </p>
+      </div>
+    </div>
+
+    <aside>
+      <div class="aside-block">
+        <div class="aside-head">HEAD OFFICE</div>
+        <a href={SITE.phoneHref} class="big-phone">{SITE.phoneDisplay}</a>
+        <p class="aside-addr">{SITE.address.street}<br />{SITE.address.suburb}<br />{SITE.address.city}, {SITE.address.postal}</p>
+        <p class="aside-hours">MON–FRI 07:30–16:30</p>
+        <a href={`mailto:${SITE.email}`} class="aside-mail">{SITE.email}</a>
+      </div>
+      <a
+        class="map"
+        href={`https://www.google.com/maps/search/?api=1&query=${SITE.address.lat},${SITE.address.lng}`}
+        rel="noopener"
+        target="_blank"
+        aria-label="Open Techni Construction head office in Google Maps"
+      >
+        {/* Replace this striped placeholder with a static map image before launch
+            (keep it an <img loading="lazy"> — it must not affect LCP). */}
+        <span>map — Giulietti Rd, Walmer · open in Google Maps</span>
+      </a>
+      <div class="aside-block">
+        <div class="aside-head">{SITE.salesCentre.label.toUpperCase()}</div>
+        <p class="aside-addr">{SITE.salesCentre.street}<br />{SITE.salesCentre.city}, {SITE.salesCentre.postal}</p>
+        <a href={SITE.salesCentre.phoneHref} class="aside-phone2">{SITE.salesCentre.phoneDisplay}</a>
+      </div>
+    </aside>
+  </section>
+
+  <div class="callbar">
+    <a href={SITE.phoneHref} class="btn btn-brick">Call {SITE.phoneDisplay}</a>
+  </div>
+</Base>
+
+<style>
+  .main {
+    padding-top: 72px;
+    padding-bottom: 96px;
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 72px;
+    align-items: start;
+  }
+  form { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .span2 { grid-column: span 2; }
+  .submit-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .submit-row .btn { padding: 16px 32px; border: none; }
+  .submit-note { font: 400 13px var(--font-display); color: var(--meta-faint); }
+
+  #form-success { border: 1px solid var(--ok-line); background: var(--ok-bg); padding: 32px 30px; }
+  .ok-head { font: 700 20px var(--font-display); color: var(--ok-ink); margin-bottom: 8px; }
+  #form-success p { font: 400 15px/1.6 var(--font-display); color: var(--ok-body); margin: 0; }
+  #form-success a { color: var(--ok-ink); font-weight: 600; }
+  #form-error { border: 1px solid var(--brick); background: #f9ece9; padding: 26px 28px; margin-top: 20px; }
+  .err-head { font: 700 18px var(--font-display); color: var(--brick-hover); margin-bottom: 6px; }
+  #form-error p { font: 400 14.5px/1.6 var(--font-display); color: #5c2c25; margin: 0; }
+
+  aside { border: 1px solid var(--line); background: var(--card); }
+  .aside-block { padding: 30px 28px; }
+  .aside-block:first-child { border-bottom: 1px solid var(--line); }
+  .aside-head { font: 600 12px var(--font-mono); letter-spacing: .16em; color: var(--brick); margin-bottom: 14px; }
+  .big-phone { font: 700 24px var(--font-mono); color: var(--ink); text-decoration: none; letter-spacing: .01em; }
+  .big-phone:hover { color: var(--brick); }
+  .aside-addr { font: 400 14.5px/1.7 var(--font-display); color: #3a322b; margin: 14px 0 0; }
+  .aside-hours { font: 500 13px var(--font-mono); color: var(--meta); margin: 14px 0 0; }
+  .aside-mail { display: inline-block; font: 400 14px var(--font-display); color: var(--brick); margin-top: 10px; }
+  .aside-phone2 { display: inline-block; font: 600 15px var(--font-mono); color: var(--ink); text-decoration: none; margin-top: 12px; }
+  .aside-phone2:hover { color: var(--brick); }
+  .map {
+    display: flex;
+    aspect-ratio: 16/10;
+    background: repeating-linear-gradient(45deg, var(--stripe-a) 0 14px, var(--stripe-b) 14px 28px);
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+  }
+  .map span {
+    font: 500 12px var(--font-mono);
+    color: var(--meta);
+    background: #fff;
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+  }
+
+  .callbar { display: none; }
+  @media (max-width: 900px) {
+    .main { grid-template-columns: 1fr; gap: 48px; }
+    form { grid-template-columns: 1fr; }
+    .span2 { grid-column: span 1; }
+    .callbar {
+      display: block;
+      position: sticky;
+      bottom: 0;
+      padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+      background: rgba(245, 242, 237, 0.96);
+      border-top: 1px solid var(--line);
+    }
+    .callbar .btn { display: block; text-align: center; }
+  }
+</style>
+
+<script>
+  // Async submit with success/error states. With no endpoint configured the
+  // form falls back to a pre-filled mailto:, so enquiries always have a path.
+  const form = document.getElementById('quote-form') as HTMLFormElement;
+  const ok = document.getElementById('form-success')!;
+  const err = document.getElementById('form-error')!;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    err.hidden = true;
+    const data = new FormData(form);
+    const endpoint = form.dataset.endpoint;
+    if (!endpoint) {
+      const body = ['name', 'phone', 'email', 'type', 'budget', 'message']
+        .map((k) => `${k}: ${data.get(k) || '-'}`)
+        .join('\n');
+      location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent('Quote enquiry — website')}&body=${encodeURIComponent(body)}`;
+      form.hidden = true;
+      ok.hidden = false;
+      return;
+    }
+    try {
+      const res = await fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+      if (!res.ok) throw new Error(String(res.status));
+      form.hidden = true;
+      ok.hidden = false;
+      (window as any).plausible?.('Quote Enquiry');
+    } catch {
+      err.hidden = false;
+    }
+  });
+</script>

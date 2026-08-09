@@ -1,0 +1,311 @@
+---
+import { getImage, Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import CTABand from '../components/CTABand.astro';
+import { SITE } from '../config';
+import heroSrc from '../assets/photos/venter-1.jpg';
+import thorndaleImg from '../assets/photos/thorndale-1.jpg';
+
+// The hero is the LCP element: preloaded, fetchpriority=high, never lazy.
+const hero = await getImage({
+  src: heroSrc,
+  widths: [768, 1280, 1920],
+  sizes: '100vw',
+  format: 'webp',
+});
+const heroAlt =
+  'House Venter, an upmarket double-storey home built by Techni Construction in the Royalston private game reserve, Gqeberha';
+
+const projects = await getCollection('projects');
+const bySlug = (id: string) => projects.find((p) => p.id === id)!;
+const flagships = [
+  { p: bySlug('house-venter'), href: '/projects/house-venter/' },
+  { p: bySlug('south-city-office-block'), href: '/projects/#commercial' },
+  { p: bySlug('steinbuild-walker-drive-buco'), href: '/projects/#industrial' },
+];
+const count = (s: string) => projects.filter((p) => p.data.sector === s).length;
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    '@id': `${SITE.url}/#business`,
+    name: SITE.name,
+    legalName: SITE.legalName,
+    url: SITE.url,
+    telephone: '+27415817765',
+    email: SITE.email,
+    foundingDate: '1993',
+    slogan: 'Teamwork. Built on excellence.',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: `${SITE.address.street}, ${SITE.address.suburb}`,
+      addressLocality: 'Gqeberha',
+      addressRegion: 'Eastern Cape',
+      postalCode: SITE.address.postal,
+      addressCountry: 'ZA',
+    },
+    geo: { '@type': 'GeoCoordinates', latitude: SITE.address.lat, longitude: SITE.address.lng },
+    openingHours: 'Mo-Fr 07:30-16:30',
+    areaServed: 'Nelson Mandela Bay and the Eastern Cape',
+  },
+];
+---
+
+<Base
+  title="Construction Company Port Elizabeth (Gqeberha) | Techni Construction"
+  description="Residential, commercial and industrial construction for projects up to R200 million — CIDB 7 GB, BEE Level 4, building Nelson Mandela Bay since 1993."
+  schema={schema}
+>
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    imagesrcset={hero.srcSet.attribute}
+    imagesizes="100vw"
+    fetchpriority="high"
+  />
+
+  <section aria-label="Hero" class="hero">
+    <img
+      src={hero.src}
+      srcset={hero.srcSet.attribute}
+      sizes="100vw"
+      width={hero.attributes.width}
+      height={hero.attributes.height}
+      alt={heroAlt}
+      fetchpriority="high"
+      class="hero-img"
+    />
+    <div class="scrim-v"></div>
+    <div class="scrim-l"></div>
+    <div class="wrap hero-content">
+      <div class="hero-kicker">GQEBERHA (PORT ELIZABETH) · EASTERN CAPE</div>
+      <h1>Teamwork. Built on excellence.</h1>
+      <p>
+        Residential, commercial and industrial construction for projects up to
+        R200 million — delivered across Nelson Mandela Bay and the Eastern Cape
+        since 1993.
+      </p>
+      <div class="hero-ctas">
+        <a href="/projects/" class="btn btn-white">View our work</a>
+        <a href="/contact/" class="btn btn-ghost-light">Request a quote</a>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Credentials strip" class="strip">
+    <div class="wrap strip-inner">
+      <span>EST. 1993</span>
+      <span>CIDB 7 GB</span>
+      <span>BEE LEVEL 4</span>
+      <span>MBA (ECMBA) MEMBER</span>
+      <span>PROJECTS TO R200 M</span>
+    </div>
+  </section>
+
+  <section aria-label="Selected work" class="wrap selected">
+    <div class="section-head">
+      <div>
+        <div class="kicker">Selected work</div>
+        <h2 class="section">Three sectors. One standard.</h2>
+      </div>
+      <a href="/projects/" class="link-underline">All {projects.length} projects →</a>
+    </div>
+    <div class="flagship-grid">
+      {flagships.map(({ p, href }) => {
+        const d = p.data;
+        const meta = [d.size, d.value, d.year].filter(Boolean).join(' · ');
+        return (
+          <a href={href} class="pcard">
+            <div class="pcard-imgbox">
+              <Image
+                src={d.thumb}
+                alt={d.alt}
+                widths={[420, 640, 900]}
+                sizes="(max-width: 700px) 92vw, (max-width: 1100px) 45vw, 400px"
+                loading="lazy"
+                style="width:100%;aspect-ratio:4/3;object-fit:cover;height:auto"
+              />
+            </div>
+            <div class="pcard-tag">{[d.sector, d.location].filter(Boolean).join(' · ')}</div>
+            <div class="pcard-name" style="font-size:21px">{d.name}</div>
+            {meta && <div class="pcard-meta" style="font-size:13.5px">{meta}</div>}
+          </a>
+        );
+      })}
+    </div>
+  </section>
+
+  <section aria-label="Sectors" class="wrap sectors-outer">
+    <div class="sectors">
+      <a href="/projects/#residential">
+        <div class="s-count">01 — {count('Residential')} PROJECTS</div>
+        <div class="s-name">Residential</div>
+        <p>Upmarket homes, estates and lodges — from Royalston to Greater Addo. Owner-builders and architects welcome.</p>
+        <div class="s-link">See residential work →</div>
+      </a>
+      <a href="/projects/#commercial">
+        <div class="s-count">02 — {count('Commercial')} PROJECTS</div>
+        <div class="s-name">Commercial</div>
+        <p>Offices, retail and fit-outs — including South City, Weylandts, Algoa FM and Coca-Cola Sabco.</p>
+        <div class="s-link">See commercial work →</div>
+      </a>
+      <a href="/projects/#industrial">
+        <div class="s-count">03 — {count('Industrial')} PROJECTS</div>
+        <div class="s-name">Industrial</div>
+        <p>Warehousing, plants and business parks — for clients like Ford, NOV and Formex &amp; Lear.</p>
+        <div class="s-link">See industrial work →</div>
+      </a>
+    </div>
+  </section>
+
+  <section aria-label="Credentials" class="creds-band">
+    <div class="wrap creds-inner">
+      <div>
+        <div class="kicker">For tender vetting</div>
+        <h2 class="section">The paperwork professionals check, in one place.</h2>
+        <p class="creds-copy">
+          Architects, quantity surveyors and developers shortlist in minutes.
+          Our credentials page answers the vetting questions without a phone call.
+        </p>
+        <a href="/credentials/" class="btn btn-ink">View credentials</a>
+      </div>
+      <div class="stat-grid stats">
+        <div><div class="stat-n">7 GB</div><div class="stat-l">CIDB GRADING</div></div>
+        <div><div class="stat-n">L4</div><div class="stat-l">BEE LEVEL</div></div>
+        <div><div class="stat-n">33</div><div class="stat-l">YEARS IN BUSINESS</div></div>
+        <div><div class="stat-n">R200M</div><div class="stat-l">PROJECT CEILING</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Since 1993" class="wrap since">
+    <div class="pcard-imgbox">
+      <Image
+        src={thorndaleImg}
+        alt="Thorndale private hunting lodge in Greater Addo, built by Techni Construction"
+        widths={[600, 900, 1200]}
+        sizes="(max-width: 900px) 92vw, 600px"
+        loading="lazy"
+        style="width:100%;aspect-ratio:4/3.2;object-fit:cover;height:auto"
+      />
+    </div>
+    <div>
+      <div class="kicker">Since 1993</div>
+      <h2 class="section">Founded by two builders. Still run by builders.</h2>
+      <p class="body-copy" style="margin-top:18px">
+        Wayne Smart and Johan Botha established Techni Construction in 1993.
+        Today Gregg Clarke, Leon Janse van Rensburg, Everard Smith and Sameera
+        Lorgat lead a team of 50+ site employees and 6 site managers.
+      </p>
+      <p class="body-copy" style="margin-bottom:28px">
+        Specialised works run through SMME labour-only subcontractors, with a
+        deliberate focus on developing historically disadvantaged individuals
+        and small businesses.
+      </p>
+      <a href="/about/" class="link-underline">Our story →</a>
+    </div>
+  </section>
+
+  <CTABand
+    heading="Planning a build? Vetting a contractor?"
+    sub="We respond to every enquiry within one business day."
+  />
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 640px;
+    height: 78vh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: var(--ink);
+  }
+  .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .scrim-v {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(20,15,12,.30) 0%, rgba(20,15,12,.12) 38%, rgba(20,15,12,.86) 100%);
+  }
+  .scrim-l {
+    position: absolute; inset: 0;
+    background: linear-gradient(100deg, rgba(20,15,12,.42) 0%, rgba(20,15,12,0) 55%);
+  }
+  .hero-content { position: relative; width: 100%; padding-bottom: 64px; }
+  .hero-kicker { font: 600 13px var(--font-mono); letter-spacing: .18em; color: var(--brick-pale); margin-bottom: 18px; }
+  .hero h1 {
+    font: 900 clamp(44px, 6.4vw, 88px)/0.98 var(--font-display);
+    letter-spacing: -.025em;
+    color: #fff;
+    margin: 0;
+    max-width: 13ch;
+    text-wrap: balance;
+  }
+  .hero p {
+    font: 400 clamp(16px, 1.4vw, 19px)/1.55 var(--font-display);
+    color: rgba(255,255,255,.88);
+    max-width: 52ch;
+    margin: 22px 0 30px;
+  }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .strip { background: var(--ink); }
+  .strip-inner {
+    padding-top: 22px; padding-bottom: 22px;
+    display: flex; gap: 12px 24px; justify-content: space-between; flex-wrap: wrap;
+  }
+  .strip-inner span { font: 600 13.5px var(--font-mono); letter-spacing: .14em; color: #fff; }
+
+  .selected { padding-top: 96px; padding-bottom: 32px; }
+  .section-head {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    gap: 24px; flex-wrap: wrap; margin-bottom: 40px;
+  }
+  .flagship-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; }
+
+  .sectors-outer { padding-top: 64px; padding-bottom: 96px; }
+  .sectors {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    border: 1px solid var(--line);
+    background: var(--card);
+  }
+  .sectors a {
+    text-decoration: none; color: var(--ink);
+    padding: 36px 32px; display: block;
+    border-right: 1px solid var(--line);
+  }
+  .sectors a:last-child { border-right: none; }
+  .sectors a:hover { background: var(--wash); }
+  .s-count { font: 400 13px var(--font-mono); color: var(--meta-faint); font-variant-numeric: tabular-nums; }
+  .s-name { font: 800 26px var(--font-display); letter-spacing: -.01em; margin: 14px 0 10px; }
+  .sectors p { font: 400 14.5px/1.6 var(--font-display); color: var(--body-2); margin: 0; }
+  .s-link { font: 600 14px var(--font-display); color: var(--brick); margin-top: 18px; }
+  @media (max-width: 900px) { .sectors a { border-right: none; border-bottom: 1px solid var(--line); } .sectors a:last-child { border-bottom: none; } }
+
+  .creds-band { background: var(--card); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .creds-inner {
+    padding-top: 88px; padding-bottom: 88px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+  }
+  .creds-copy { font: 400 16px/1.65 var(--font-display); color: var(--body-2); margin: 18px 0 28px; max-width: 52ch; }
+  .stats { grid-template-columns: 1fr 1fr; }
+  .stats > div { padding: 28px 26px; }
+  .stat-n { font: 900 40px var(--font-display); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+  .stat-l { font: 500 13px var(--font-mono); color: var(--meta); margin-top: 6px; letter-spacing: .06em; }
+
+  .since {
+    padding-top: 96px; padding-bottom: 96px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+  }
+  .since .kicker { margin-top: 0; }
+  .since h2 { margin-bottom: 0; }
+
+  @media (max-width: 900px) {
+    .creds-inner, .since { grid-template-columns: 1fr; gap: 40px; }
+    .selected { padding-top: 64px; }
+  }
+</style>

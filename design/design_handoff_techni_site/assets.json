@@ -1,0 +1,62 @@
+{
+ "logo": "https://www.techniconstruction.co.za/wp-content/uploads/2023/09/cropped-TECHNI-LOGO-270x270.png",
+ "leadership": {
+  "gregg": "https://www.techniconstruction.co.za/wp-content/uploads/2023/11/Gregg-Clarke.jpg",
+  "leon": "https://www.techniconstruction.co.za/wp-content/uploads/2023/11/Leon-Janse-Van-Rensburg.jpg",
+  "everard": "https://www.techniconstruction.co.za/wp-content/uploads/2023/11/Everard-Smith.jpg",
+  "sameera": "https://www.techniconstruction.co.za/wp-content/uploads/2023/11/Sameera-Lorgat.jpg"
+ },
+ "galleries": {
+  "venter": [
+   "2023/10/ROYALSTON15.jpg",
+   "2023/10/ROYALSTON16.jpg",
+   "2023/10/ROYALSTON14.jpg",
+   "2023/10/ROYALSTON13.jpg"
+  ],
+  "thorndale": [
+   "2023/10/THORNDALE19.jpg",
+   "2023/10/THORNDALE20.jpg",
+   "2023/10/THORNDALE18.jpg",
+   "2023/10/THORNDALE17.jpg"
+  ],
+  "buco": [
+   "2023/10/BUCO-5.jpg",
+   "2023/10/BUCO-6.jpg",
+   "2023/10/BUCO-7.jpg",
+   "2023/10/BUCO-8.jpg"
+  ],
+  "nanaga": [
+   "2023/10/NANAGA.jpg",
+   "2023/10/NANAGA2.jpg",
+   "2023/10/NANAGA3.jpg",
+   "2023/10/NANAGA4.jpg"
+  ],
+  "southcity": [
+   "2023/10/SOUTHCITYjpg.jpg",
+   "2023/10/SOUTHCITYjpg2.jpg",
+   "2023/10/SOUTHCITYjpg3.jpg",
+   "2023/10/SOUTHCITYjpg4.jpg"
+  ]
+ },
+ "thumbs": {
+  "campbell": "2023/10/002-020.png",
+  "prins": "2023/10/002-019.png",
+  "venter": "2023/10/002-015.png",
+  "kragga": "2023/10/002-018.png",
+  "krom": "2023/10/002-017.png",
+  "thorndale": "2023/10/002-016.png",
+  "weylandts": "2023/10/002-013.png",
+  "algoafm": "2023/10/002-012.png",
+  "southcity": "2023/10/002-011.png",
+  "waterfront": "2023/10/002-010.png",
+  "nanaga": "2023/10/002-009.png",
+  "cocacola": "2023/10/002-008.png",
+  "medicus": "2023/10/002-001.png",
+  "hunters": "2023/10/002-006.png",
+  "formex": "2023/10/002-005.png",
+  "buco": "2023/10/008-005.png",
+  "nov": "2023/10/002-003.png",
+  "ford": "2023/10/002-002.png"
+ },
+ "note": "gallery/thumb paths are relative to https://www.techniconstruction.co.za/wp-content/uploads/; detail facts known for venter/thorndale/buco/nanaga/southcity; other 13 projects: name+sector+thumb only"
+}

@@ -15,6 +15,8 @@ Gqeberha (Port Elizabeth) construction firm, est. 1993, CIDB 7 GB.
 | [`audit/data-capture-checklist.md`](audit/data-capture-checklist.md) | ~45 min of browser captures that fill the report's remaining `[TO CAPTURE]` slots |
 | [`audit/rebuild-plan.md`](audit/rebuild-plan.md) | Utility-first rebuild plan, timeline, pricing logic, pitch narrative |
 | [`audit/tools/run-psi.sh`](audit/tools/run-psi.sh) | Scripted Google PageSpeed capture (mobile + desktop) |
+| [`site/`](site/) | **The production site** — Astro static build implementing the design handoff (see `site/README.md`) |
+| [`design/design_handoff_techni_site/`](design/design_handoff_techni_site/) | The design handoff: 9 high-fidelity HTML references + asset manifest |
 | [`PLAYBOOK.md`](PLAYBOOK.md) | The reusable framework for every future client |
 
 ## Status
@@ -24,6 +26,8 @@ Gqeberha (Port Elizabeth) construction firm, est. 1993, CIDB 7 GB.
 - [x] Real-browser Core Web Vitals capture (FCP/LCP 9.26 s, TTFB 2.83 s — both "Poor")
 - [x] Google Business Profile audit (unclaimed, 4.1★/11, ranks 8th of 8 locally — see `audit/gbp-audit.md`)
 - [ ] Remaining browser captures (SERP screenshots, phone walk-through)
-- [ ] Owner inputs: current monthly cost, email hosting, logins, content pack
-- [ ] Build on staging
-- [ ] After-report + pitch
+- [x] Design handoff received (`design/`)
+- [x] Production site built (`site/` — Astro, 8 pages, builds clean with placeholder images)
+- [ ] `npm run fetch-assets` on a networked machine → commit real photos
+- [ ] Owner inputs: current monthly cost, email hosting, logins, content pack (more projects, certificates, profile PDF)
+- [ ] Deploy to staging (Cloudflare Pages/Netlify) → after-report → pitch

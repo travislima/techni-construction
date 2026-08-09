@@ -1,0 +1,139 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import CTABand from '../components/CTABand.astro';
+import gregg from '../assets/photos/leader-gregg.jpg';
+import leon from '../assets/photos/leader-leon.jpg';
+import everard from '../assets/photos/leader-everard.jpg';
+import sameera from '../assets/photos/leader-sameera.jpg';
+
+const leaders = [
+  { img: gregg, name: 'Gregg Clarke', alt: 'Gregg Clarke, member and director at Techni Construction' },
+  { img: leon, name: 'Leon Janse van Rensburg', alt: 'Leon Janse van Rensburg, member and director at Techni Construction' },
+  { img: everard, name: 'Everard Smith', alt: 'Everard Smith, member and director at Techni Construction' },
+  { img: sameera, name: 'Sameera Lorgat', alt: 'Sameera Lorgat, member and director at Techni Construction' },
+];
+
+const timeline = [
+  ['1993', 'Founded in Port Elizabeth by builders Wayne Smart and Johan Botha as Smart and Botha Construction.'],
+  ['2000s', "Growth into commercial and industrial work; long relationships formed with the region's architects and developers."],
+  ['2010s', 'CIDB 7 GB grading achieved — top-tier regional contractor status. Public-sector projects completed alongside private work.'],
+  ['Today', 'Led by four working directors; 50+ site employees, 6 site managers, 4 office staff. ISO-9001 registration in progress.'],
+];
+
+const values = [
+  ['Total quality management', 'striving for a product with zero defects.'],
+  ['Project delivery', 'on time and safely, for everyone on site.'],
+  ['Service', 'honest and reliable, beyond contractual obligation.'],
+  ['Customer satisfaction', 'the chief end and purpose of our values.'],
+];
+---
+
+<Base
+  title="About — 33 years building Nelson Mandela Bay | Techni Construction"
+  description="Established 1993 by Wayne Smart and Johan Botha. Today four working directors lead 50+ site staff delivering projects up to R200 million across the Eastern Cape."
+>
+  <section aria-label="Intro" class="wrap intro">
+    <div class="kicker">About Techni Construction</div>
+    <h1 class="display" style="max-width:20ch">Thirty-three years of building, still led from site.</h1>
+    <p class="lede" style="font-size:18px;max-width:64ch;margin-top:20px">
+      Techni Construction was established in 1993 by Wayne Smart and Johan
+      Botha. Both have since retired; the firm they built now delivers
+      residential, commercial and industrial projects up to R200 million across
+      Nelson Mandela Bay and the Eastern Cape.
+    </p>
+  </section>
+
+  <section aria-label="Timeline" class="wrap tl-outer">
+    <div class="stat-grid tl">
+      {timeline.map(([era, text]) => (
+        <div class="tl-tile">
+          <div class="tl-era">{era}</div>
+          <p>{text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section aria-label="Leadership" class="lead-band">
+    <div class="wrap lead-inner">
+      <div class="kicker">Leadership</div>
+      <h2 class="section" style="margin-bottom:36px">The people who answer the phone.</h2>
+      <div class="lead-grid">
+        {leaders.map((l) => (
+          <div>
+            <Image src={l.img} alt={l.alt} widths={[300, 460, 700]} sizes="(max-width: 700px) 45vw, 280px" loading="lazy" class="portrait" />
+            <div class="lead-name">{l.name}</div>
+            <div class="lead-role">MEMBER</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="SMME development" class="wrap smme">
+    <div>
+      <div class="kicker">SMME &amp; HDI development</div>
+      <h2 class="section" style="font-size:clamp(28px,3vw,40px)">Specialised works build small businesses too.</h2>
+      <p class="body-copy" style="margin-top:18px">
+        Our specialised works and bulk wet trades run through SMME labour-only
+        subcontractors — with a deliberate programme of development, upliftment
+        and skills transfer for historically disadvantaged individuals.
+      </p>
+      <p class="body-copy" style="margin-bottom:0">
+        This is not a compliance line. It is how we resource projects, and it
+        is why public-sector and corporate clients keep working with us. We
+        hold a BEE Level 4 rating.
+      </p>
+    </div>
+    <div>
+      <div class="kicker">Vision &amp; values</div>
+      <p class="vision">
+        To be the leading construction company in Nelson Mandela Bay in
+        quality, product delivery, health &amp; safety, equality and customer
+        satisfaction.
+      </p>
+      <div class="values">
+        {values.map(([term, rest]) => (
+          <div class="value-row"><b>{term}</b> — {rest}</div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABand variant="ink" heading="See the work the team delivers." showPhone={false}>
+    <a href="/projects/" class="btn btn-white">View projects</a>
+    <a href="/credentials/" class="btn btn-ghost-light">Credentials</a>
+  </CTABand>
+</Base>
+
+<style>
+  .intro { padding-top: 72px; }
+  .tl-outer { padding-top: 64px; padding-bottom: 64px; }
+  .tl { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .tl-tile { padding: 30px 26px; }
+  .tl-era { font: 900 30px var(--font-display); letter-spacing: -.02em; color: var(--brick); font-variant-numeric: tabular-nums; }
+  .tl-tile p { font: 400 14.5px/1.6 var(--font-display); color: var(--body-2); margin: 10px 0 0; }
+
+  .lead-band { background: var(--card); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .lead-inner { padding-top: 88px; padding-bottom: 88px; }
+  .lead-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px; }
+  .lead-grid :global(.portrait) { width: 100%; aspect-ratio: 1/1.15; height: auto; object-fit: cover; background: var(--stripe-b); }
+  .lead-name { font: 700 18px var(--font-display); margin: 14px 0 4px; }
+  .lead-role { font: 500 12.5px var(--font-mono); color: var(--meta); letter-spacing: .06em; }
+
+  .smme {
+    padding-top: 96px; padding-bottom: 96px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+  }
+  .vision { font: 600 19px/1.55 var(--font-display); margin: 0 0 24px; color: var(--ink); }
+  .values { display: flex; flex-direction: column; gap: 14px; }
+  .value-row {
+    border-left: 2px solid var(--brick);
+    padding-left: 18px;
+    font: 400 14.5px/1.5 var(--font-display);
+    color: var(--body-2);
+  }
+  .value-row b { font-weight: 700; color: var(--ink); }
+  @media (max-width: 900px) { .smme { grid-template-columns: 1fr; gap: 48px; } }
+</style>

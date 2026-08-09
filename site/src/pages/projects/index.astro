@@ -1,0 +1,97 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const sectors = ['Residential', 'Commercial', 'Industrial'] as const;
+const count = (s: string) => projects.filter((p) => p.data.sector === s).length;
+---
+
+<Base
+  title="Projects — Residential, Commercial & Industrial | Techni Construction"
+  description={`${projects.length} completed construction projects across Nelson Mandela Bay and the Eastern Cape — homes, offices, retail and industrial builds with contract values shown where records are complete.`}
+>
+  <section aria-label="Projects" class="wrap main">
+    <div class="kicker">Project portfolio</div>
+    <h1 class="display">Our work</h1>
+    <p class="lede intro">
+      {String(projects.length === 18 ? 'Eighteen' : projects.length)} completed projects across Nelson Mandela Bay and the
+      Eastern Cape. Contract values and floor areas shown where our records are complete.
+    </p>
+
+    <div role="group" aria-label="Filter by sector" class="filters" data-filters hidden>
+      <button data-filter="All" aria-pressed="true">All — {projects.length}</button>
+      {sectors.map((s) => (
+        <button data-filter={s} aria-pressed="false">{s} — {count(s)}</button>
+      ))}
+    </div>
+
+    <div class="grid" data-project-grid>
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+
+    <div class="records">
+      <p>
+        Looking for something specific — a sector, a value band, a reference?
+        Our full project records go back to 1993.
+      </p>
+      <a href="/contact/" class="btn btn-brick">Ask about our portfolio</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .main { padding-top: 72px; padding-bottom: 96px; }
+  .intro { font-size: 17px; margin: 16px 0 40px; max-width: 60ch; }
+  .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 36px; }
+  .filters button {
+    font: 600 13.5px var(--font-display);
+    padding: 11px 18px;
+    cursor: pointer;
+    border: 1px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  .filters button[aria-pressed='true'] { background: var(--ink); color: #fff; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 32px 28px;
+  }
+  .grid :global([data-sector].hidden) { display: none; }
+  .records {
+    margin-top: 72px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    padding: 36px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .records p { font: 400 16px/1.6 var(--font-display); color: var(--body-2); margin: 0; max-width: 56ch; }
+  .records .btn { flex: none; }
+</style>
+
+<script>
+  // Sector filter with #residential / #commercial / #industrial deep links.
+  // Without JS the page simply shows all projects (buttons stay hidden).
+  const bar = document.querySelector('[data-filters]') as HTMLElement;
+  const cards = [...document.querySelectorAll('[data-project-grid] [data-sector]')] as HTMLElement[];
+  const apply = (f: string) => {
+    for (const c of cards) c.classList.toggle('hidden', f !== 'All' && c.dataset.sector !== f);
+    for (const b of bar.querySelectorAll('button'))
+      b.setAttribute('aria-pressed', String(b.dataset.filter === f));
+  };
+  bar.hidden = false;
+  bar.addEventListener('click', (e) => {
+    const b = (e.target as Element).closest('button');
+    if (b?.dataset.filter) apply(b.dataset.filter);
+  });
+  const hash = location.hash.replace('#', '').toLowerCase();
+  const map: Record<string, string> = { residential: 'Residential', commercial: 'Commercial', industrial: 'Industrial' };
+  if (map[hash]) apply(map[hash]);
+</script>

@@ -1,0 +1,172 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects
+    .filter((p) => p.data.caseStudy)
+    .map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const p = project.data;
+const cs = p.caseStudy!;
+const meta = [p.size, p.value, p.year].filter(Boolean).join(' · ');
+
+// Prev/next through the full portfolio, in display order.
+const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const i = all.findIndex((x) => x.id === project.id);
+const prev = all[(i - 1 + all.length) % all.length];
+const next = all[(i + 1) % all.length];
+const navHref = (x: (typeof all)[number]) =>
+  x.data.caseStudy ? `/projects/${x.id}/` : `/projects/#${x.data.sector.toLowerCase()}`;
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: p.name,
+    description: cs.narrative[0],
+    creator: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+    locationCreated: p.location,
+    ...(p.year ? { dateCreated: p.year } : {}),
+  },
+];
+---
+
+<Base
+  title={`${p.name} — ${p.sector.toLowerCase()} construction, ${p.location} | Techni Construction`}
+  description={`${cs.narrative[0].slice(0, 150)}…`}
+  schema={schema}
+>
+  <section aria-label="Project" class="wrap main">
+    <a href="/projects/" class="back">← All projects</a>
+    <div class="head">
+      <div>
+        <div class="kicker">{cs.kicker}</div>
+        <h1 class="display" style="font-size:clamp(38px,4.6vw,60px)">{p.name}</h1>
+      </div>
+      {meta && <div class="head-meta">{meta}</div>}
+    </div>
+
+    <div class="gallery">
+      {cs.gallery.map((g, idx) => (
+        idx === 0 ? (
+          <Image src={g.src} alt={g.alt} widths={[640, 900, 1280]} sizes="(max-width: 900px) 92vw, 620px" class="lead" loading="eager" fetchpriority="high" />
+        ) : (
+          <Image src={g.src} alt={g.alt} widths={[420, 640, 900]} sizes="(max-width: 900px) 45vw, 300px" class="cell" loading="lazy" />
+        )
+      ))}
+      <div class="more-slot">
+        <span>3–8 photos per project<br />slots ready for the full set</span>
+      </div>
+    </div>
+
+    <div class="body">
+      <div>
+        <h2>{cs.heading}</h2>
+        {cs.narrative.map((para) => <p class="narrative">{para}</p>)}
+      </div>
+      <aside aria-label="Project facts">
+        <div class="facts-head">PROJECT FACTS</div>
+        <dl>
+          <dt>Sector</dt><dd>{p.sector}</dd>
+          {p.location && <><dt>Location</dt><dd>{p.location}</dd></>}
+          {p.size && <><dt>Size</dt><dd>{p.size}</dd></>}
+          {cs.valueLong && <><dt>Value</dt><dd>{cs.valueLong}</dd></>}
+          {p.year && <><dt>Completed</dt><dd>{p.year}</dd></>}
+          {cs.architect && <><dt>Architect</dt><dd>{cs.architect}</dd></>}
+        </dl>
+        <a href="/contact/" class="btn btn-brick facts-cta">Quote a project like this</a>
+      </aside>
+    </div>
+
+    <nav aria-label="Project navigation" class="pnav">
+      <a href={navHref(prev)}>
+        <div class="pnav-label">← PREVIOUS</div>
+        <div class="pnav-name">{prev.data.name}</div>
+      </a>
+      <a href={navHref(next)} class="pnav-next">
+        <div class="pnav-label">NEXT →</div>
+        <div class="pnav-name">{next.data.name}</div>
+      </a>
+    </nav>
+  </section>
+</Base>
+
+<style>
+  .main { padding-top: 56px; padding-bottom: 96px; }
+  .back { font: 500 13.5px var(--font-display); color: var(--meta); text-decoration: none; }
+  .back:hover { color: var(--brick); }
+  .head {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    gap: 24px; flex-wrap: wrap; margin: 20px 0 36px;
+  }
+  .head-meta { font: 400 15px var(--font-mono); color: var(--meta); font-variant-numeric: tabular-nums; }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 12px;
+  }
+  .gallery :global(.lead) {
+    grid-row: span 2;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    background: var(--stripe-b);
+    min-height: 420px;
+  }
+  .gallery :global(.cell) {
+    width: 100%; aspect-ratio: 4/3; height: auto;
+    object-fit: cover;
+    background: var(--stripe-b);
+  }
+  .more-slot {
+    background: var(--ink); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .more-slot span { font: 500 13px/1.5 var(--font-mono); color: #a89c8d; text-align: center; }
+  @media (max-width: 900px) {
+    .gallery { grid-template-columns: 1fr 1fr; }
+    .gallery :global(.lead) { grid-column: span 2; grid-row: auto; min-height: 0; aspect-ratio: 4/3; }
+  }
+
+  .body {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 64px;
+    margin-top: 64px;
+    align-items: start;
+  }
+  .body h2 { font: 800 26px var(--font-display); letter-spacing: -.015em; margin: 0 0 16px; }
+  .narrative { font: 400 16.5px/1.7 var(--font-display); color: #3a322b; margin: 0 0 16px; }
+  .narrative:last-child { margin-bottom: 0; }
+  aside { background: var(--card); border: 1px solid var(--line); padding: 30px 28px; }
+  .facts-head { font: 600 12px var(--font-mono); letter-spacing: .16em; color: var(--brick); margin-bottom: 18px; }
+  dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px 20px;
+    font-variant-numeric: tabular-nums;
+  }
+  dt { font: 500 13px var(--font-mono); color: var(--meta-faint); }
+  dd { font: 500 14.5px var(--font-display); margin: 0; }
+  .facts-cta { display: block; text-align: center; margin-top: 26px; padding: 14px 20px; font-size: 14.5px; }
+  @media (max-width: 900px) { .body { grid-template-columns: 1fr; gap: 40px; } }
+
+  .pnav {
+    display: flex; justify-content: space-between; gap: 16px;
+    margin-top: 72px; border-top: 1px solid var(--line); padding-top: 24px;
+  }
+  .pnav a { text-decoration: none; color: var(--ink); }
+  .pnav a:hover { color: var(--brick); }
+  .pnav-next { text-align: right; }
+  .pnav-label { font: 500 12px var(--font-mono); color: var(--meta-faint); margin-bottom: 4px; }
+  .pnav-name { font: 600 16px var(--font-display); }
+</style>

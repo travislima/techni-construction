@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>Projects — Residential, Commercial &amp; Industrial | Techni Construction</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"></link>
+  <style>
+    body{margin:0;background:#F5F2ED;color:#211B16;font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased}
+    a{color:#8A2B1D}a:hover{color:#6F2116}
+    :focus-visible{outline:2px solid #8A2B1D;outline-offset:2px}
+  </style>
+</helmet>
+<dc-import name="SiteHeader" hint-size="100%,74px"></dc-import>
+<section aria-label="Projects" style="max-width:1280px;margin:0 auto;padding:72px 32px 96px">
+  <div style="font:600 12.5px 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#8A2B1D;margin-bottom:12px">PROJECT PORTFOLIO</div>
+  <h1 style="font:900 clamp(38px,5vw,64px)/1 'Archivo',sans-serif;letter-spacing:-.025em;margin:0 0 16px">Our work</h1>
+  <p style="font:400 17px/1.6 'Archivo',sans-serif;color:#57503F;margin:0 0 40px;max-width:60ch">Eighteen completed projects across Nelson Mandela Bay and the Eastern Cape. Contract values and floor areas shown where our records are complete.</p>
+  <div role="group" aria-label="Filter by sector" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px">
+    <button onClick="{{ setAll }}" style="{{ styleAll }}">All — 18</button>
+    <button onClick="{{ setRes }}" style="{{ styleRes }}">Residential — 6</button>
+    <button onClick="{{ setCom }}" style="{{ styleCom }}">Commercial — 6</button>
+    <button onClick="{{ setInd }}" style="{{ styleInd }}">Industrial — 6</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:32px 28px">
+    <sc-for list="{{ list }}" as="p" hint-placeholder-count="6">
+      <div style="display:flex;flex-direction:column">
+        <div style="overflow:hidden;background:#E4DED5">
+          <img src="{{ p.img }}" alt="{{ p.alt }}" style="display:block;width:100%;aspect-ratio:4/3;object-fit:cover" loading="lazy"></img>
+        </div>
+        <div style="font:600 11.5px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#8A2B1D;margin:16px 0 6px">{{ p.tag }}</div>
+        <div style="font:700 19px 'Archivo',sans-serif;letter-spacing:-.01em">{{ p.name }}</div>
+        <sc-if value="{{ p.meta }}" hint-placeholder-val="{{ true }}">
+          <div style="font:400 13px 'IBM Plex Mono',monospace;color:#6E655A;margin-top:6px;font-variant-numeric:tabular-nums">{{ p.meta }}</div>
+        </sc-if>
+        <sc-if value="{{ p.hasDetail }}" hint-placeholder-val="{{ false }}">
+          <a href="ProjectDetail.dc.html" style="font:600 13.5px 'Archivo',sans-serif;color:#8A2B1D;text-decoration:none;margin-top:10px" style-hover="color:#6F2116">View case study →</a>
+        </sc-if>
+      </div>
+    </sc-for>
+  </div>
+  <div style="margin-top:72px;border:1px solid #E2DCD2;background:#FFF;padding:36px 32px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
+    <p style="font:400 16px/1.6 'Archivo',sans-serif;color:#57503F;margin:0;max-width:56ch">Looking for something specific — a sector, a value band, a reference? Our full project records go back to 1993.</p>
+    <a href="Contact.dc.html" style="font:600 15px 'Archivo',sans-serif;color:#FFF;background:#8A2B1D;text-decoration:none;padding:15px 28px;flex:none" style-hover="background:#6F2116">Ask about our portfolio</a>
+  </div>
+</section>
+<dc-import name="SiteFooter" hint-size="100%,420px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440},&quot;defaultSector&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;All&quot;,&quot;Residential&quot;,&quot;Commercial&quot;,&quot;Industrial&quot;],&quot;default&quot;:&quot;All&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Grid&quot;},&quot;showValues&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Grid&quot;}}">
+class Component extends DCLogic {
+  state = { filter: 'All' };
+  componentDidMount() {
+    const h = (location.hash || '').replace('#', '').toLowerCase();
+    const map = { residential: 'Residential', commercial: 'Commercial', industrial: 'Industrial' };
+    if (map[h]) this.setState({ filter: map[h] });
+    else if (this.props.defaultSector && this.props.defaultSector !== 'All') this.setState({ filter: this.props.defaultSector });
+  }
+  renderVals() {
+    const U = 'https://www.techniconstruction.co.za/wp-content/uploads/2023/10/';
+    const D = [
+      ['House Venter', 'Residential', 'Royalston, Gqeberha', '±550 m²', 'R9 M', '2022', '002-015.png', true, 'House Venter, upmarket double-storey dwelling in Royalston private game reserve'],
+      ['Thorndale Lodge', 'Residential', 'Greater Addo', '±600 m²', 'R5.5 M', '2023', '002-016.png', false, 'Thorndale private hunting lodge in Greater Addo'],
+      ['House Campbell', 'Residential', '', '', '', '', '002-020.png', false, 'House Campbell, private residence'],
+      ['House Prins', 'Residential', '', '', '', '', '002-019.png', false, 'House Prins, private residence'],
+      ['Kragga Kamma Estate', 'Residential', 'Kragga Kamma, Gqeberha', '', '', '', '002-018.png', false, 'Residence in Kragga Kamma Estate'],
+      ['Krom River House', 'Residential', '', '', '', '', '002-017.png', false, 'Krom River House, private residence'],
+      ['South City Office Block', 'Commercial', 'Gqeberha', '±1 200 m²', 'R18 M', '2017', '002-011.png', false, 'South City double-storey office block with client fit-outs'],
+      ['Nanaga Farm Stall', 'Commercial', 'Nanaga', '±400 m²', 'R8 M', '2019', '002-009.png', false, 'Nanaga fuel station and food store'],
+      ['Weylandts', 'Commercial', '', '', '', '', '002-013.png', false, 'Weylandts retail store'],
+      ['Algoa FM', 'Commercial', '', '', '', '', '002-012.png', false, 'Algoa FM commercial premises'],
+      ['Waterfront Business Park', 'Commercial', '', '', '', '', '002-010.png', false, 'Waterfront Business Park development'],
+      ['Coca-Cola Sabco Fit-out', 'Commercial', '', '', '', '', '002-008.png', false, 'Coca-Cola Sabco internal fit-out'],
+      ['Steinbuild Walker Drive (BUCO)', 'Industrial', 'Walker Drive, Gqeberha', '±4 500 m²', 'R27 M', '', '008-005.png', false, 'Steinbuild BUCO retail warehousing and office block on Walker Drive'],
+      ['Medicus', 'Industrial', '', '', '', '', '002-001.png', false, 'Medicus industrial building'],
+      ['Hunters Retreat Business Park', 'Industrial', '', '', '', '', '002-006.png', false, 'Hunters Retreat Business Park'],
+      ['Formex & Lear', 'Industrial', '', '', '', '', '002-005.png', false, 'Formex and Lear industrial plant'],
+      ['NOV National Oilwell Varco', 'Industrial', '', '', '', '', '002-003.png', false, 'NOV National Oilwell Varco facility'],
+      ['Ford Puma Plant', 'Industrial', '', '', '', '', '002-002.png', false, 'Ford Puma engine plant works'],
+    ];
+    const showValues = this.props.showValues ?? true;
+    const f = this.state.filter;
+    const list = D.filter(p => f === 'All' || p[1] === f).map(p => ({
+      name: p[0],
+      tag: (p[1] + (p[2] ? ' · ' + p[2] : '')).toUpperCase(),
+      meta: [p[3], showValues ? p[4] : '', p[5]].filter(Boolean).join(' · '),
+      img: U + p[6], hasDetail: p[7], alt: p[8],
+    }));
+    const base = { font: "600 13.5px 'Archivo',sans-serif", padding: '11px 18px', cursor: 'pointer', border: '1px solid #211B16', background: 'transparent', color: '#211B16', letterSpacing: '.02em' };
+    const on = { ...base, background: '#211B16', color: '#FFF' };
+    const sty = x => (f === x ? on : base);
+    const set = x => () => this.setState({ filter: x });
+    return { list, styleAll: sty('All'), styleRes: sty('Residential'), styleCom: sty('Commercial'), styleInd: sty('Industrial'), setAll: set('All'), setRes: set('Residential'), setCom: set('Commercial'), setInd: set('Industrial') };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+---
+import { SITE } from '../config';
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="wrap cols">
+    <div>
+      <div class="brand">TECHNI CONSTRUCTION</div>
+      <p class="blurb">
+        Teamwork. Built on excellence. Residential, commercial and industrial
+        construction in Nelson Mandela Bay since 1993.
+      </p>
+      <div class="creds">EST. 1993 · CIDB 7 GB · BEE LEVEL 4</div>
+    </div>
+    <div>
+      <div class="colhead">HEAD OFFICE</div>
+      <p class="addr">
+        {SITE.address.street}<br />{SITE.address.suburb}<br />{SITE.address.city}, {SITE.address.postal}
+      </p>
+      <a href={SITE.phoneHref} class="tel">{SITE.phoneDisplay}</a><br />
+      <a href={`mailto:${SITE.email}`} class="mail">{SITE.email}</a>
+      <p class="hours">{SITE.hours}</p>
+    </div>
+    <div>
+      <div class="colhead">SALES CENTRE</div>
+      <p class="addr">Bricks &amp; pavers<br />{SITE.salesCentre.street}<br />{SITE.salesCentre.city}, {SITE.salesCentre.postal}</p>
+      <a href={SITE.salesCentre.phoneHref} class="tel">{SITE.salesCentre.phoneDisplay}</a>
+    </div>
+    <div>
+      <div class="colhead">SITE</div>
+      <nav aria-label="Footer">
+        <a href="/projects/">Projects</a>
+        <a href="/about/">About</a>
+        <a href="/credentials/">Credentials</a>
+        <a href="/careers/">Careers</a>
+        <a href="/contact/">Request a quote</a>
+      </nav>
+    </div>
+  </div>
+  <div class="wrap legal">
+    <span>© {year} {SITE.legalName}</span>
+    <span>Member of the Master Builders Association (ECMBA)</span>
+  </div>
+</footer>
+
+<style>
+  footer { background: var(--ink); color: #cfc7bc; }
+  .cols {
+    padding-top: 64px;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 48px;
+  }
+  .brand { font: 800 20px var(--font-display); color: #fff; letter-spacing: 0.02em; }
+  .blurb { font: 400 14px/1.6 var(--font-display); margin: 10px 0 0; max-width: 34ch; }
+  .creds { font: 500 12px var(--font-mono); color: #a89c8d; margin-top: 22px; letter-spacing: 0.06em; }
+  .colhead { font: 600 12px var(--font-mono); letter-spacing: 0.14em; color: #a89c8d; margin-bottom: 14px; }
+  .addr { font: 400 14px/1.7 var(--font-display); margin: 0; }
+  .tel { display: inline-block; font: 500 14px var(--font-mono); color: #fff; text-decoration: none; margin-top: 12px; }
+  .tel:hover { color: #e0a294; }
+  .mail { font: 400 13px var(--font-display); color: #cfc7bc; }
+  .mail:hover { color: #fff; }
+  .hours { font: 400 13px/1.6 var(--font-display); margin: 12px 0 0; color: #a89c8d; }
+  nav { display: flex; flex-direction: column; gap: 10px; }
+  nav a { font: 400 14px var(--font-display); color: #cfc7bc; text-decoration: none; }
+  nav a:hover { color: #fff; }
+  .legal {
+    margin-top: 48px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .legal span { font: 400 12px var(--font-display); color: #8c8378; }
+  @media (max-width: 900px) { .cols { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .cols { grid-template-columns: 1fr; gap: 36px; } }
+</style>
