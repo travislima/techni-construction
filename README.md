@@ -17,7 +17,8 @@ Gqeberha (Port Elizabeth) construction firm, est. 1993, CIDB 7 GB.
 ## Status
 
 - [x] Remote audit from public sources complete
-- [ ] Browser captures (PageSpeed screenshots, SERP, Google Business Profile, phone walk-through)
+- [x] PageSpeed baseline captured (9 Aug 2026: mobile 65 / desktop 89, mobile LCP 8.0 s, 3.2–4.5 MB pages)
+- [ ] Remaining browser captures (SERP screenshots, Google Business Profile, phone walk-through)
 - [ ] Owner inputs: current monthly cost, email hosting, logins, content pack
 - [ ] Build on staging
 - [ ] After-report + pitch

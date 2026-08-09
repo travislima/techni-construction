@@ -81,26 +81,52 @@ job is capturing inbound enquiries. The current site under-serves both — see b
 
 The objective "before" numbers for the before/after comparison.
 
-> **Status:** the automated PageSpeed API's free quota pool was exhausted on
-> audit day; a capture script is provided at `tools/run-psi.sh`, or use the
-> browser version (2 minutes): https://pagespeed.web.dev → enter
-> `https://www.techniconstruction.co.za` → save both Mobile and Desktop
-> results (screenshot + scores). Record them here:
+> ✅ **Captured 9 Aug 2026, 21:21 SAST** — Google PageSpeed Insights
+> (Lighthouse 13.4.1, emulated Moto G Power / emulated desktop, initial page
+> load of the homepage).
 
 | Metric | Mobile | Desktop |
 |---|---|---|
-| Performance score (0–100) | [TO CAPTURE] | [TO CAPTURE] |
-| Accessibility score | [TO CAPTURE] | [TO CAPTURE] |
-| Best Practices score | [TO CAPTURE] | [TO CAPTURE] |
-| SEO score | [TO CAPTURE] | [TO CAPTURE] |
-| First Contentful Paint | [TO CAPTURE] | [TO CAPTURE] |
-| Largest Contentful Paint | [TO CAPTURE] | [TO CAPTURE] |
-| Total Blocking Time | [TO CAPTURE] | [TO CAPTURE] |
-| Cumulative Layout Shift | [TO CAPTURE] | [TO CAPTURE] |
-| Total page weight | [TO CAPTURE] | [TO CAPTURE] |
+| **Performance score (0–100)** | **65** | **89** |
+| Accessibility score | 96 | 96 |
+| Best Practices score | 96 | 100 |
+| SEO score | 92 | 92 |
+| First Contentful Paint | 1.4 s | 0.4 s |
+| **Largest Contentful Paint** | **8.0 s** | 1.2 s |
+| Total Blocking Time | 100 ms | 60 ms |
+| Cumulative Layout Shift | 0.077 | 0.042 |
+| Speed Index | 9.3 s | 3.5 s |
+| **Total page weight** | **3,225 KiB** | **4,505 KiB** |
 
-Also capture (free, no login): **GTmetrix** (https://gtmetrix.com) run from
-its default server, and save the PDF report for the client pack.
+**Field data (CrUX — Google's real-user measurements): no data for either
+form factor.** Google does not record enough real visitors to this site to
+publish field metrics — an independent confirmation of the traffic finding
+in §4.
+
+### What the numbers mean
+
+- **Mobile is the problem, and the hero image is the culprit.** The main
+  content takes **8 seconds** to appear on a mid-range phone (Google's
+  "good" threshold is 2.5 s). Lighthouse's LCP breakdown attributes it to
+  resource load delay (~2.7 s) plus load duration (~0.9 s) on the hero
+  image — not the server, which responds instantly (TTFB 0 ms). The page
+  visually completes at 9.3 s (Speed Index).
+- **The homepage ships 3.2–4.5 MB**, dominated by images. Lighthouse's own
+  opportunities: ~1.8–3 MB recoverable from image delivery (sizing,
+  modern formats) and ~3–4.3 MB re-downloaded on every visit because
+  **cache lifetimes are missing/inefficient**.
+- **The good news to tell the client:** accessibility (96) and best
+  practices (96–100) are genuinely solid, and the server itself is fast.
+  The failure is concentrated in one fixable place — oversized, uncached
+  images — which also means the "after" delta will be dramatic.
+- **Caveat on the SEO score of 92:** Lighthouse checks technical basics
+  (crawlability, meta tags exist, valid HTML). It does not measure whether
+  the site ranks for anything. The duplicated title tag and missing local
+  keywords (§2) are invisible to this score — 92 here does not contradict
+  the visibility findings in §4.
+
+Also captured for the client pack: **GTmetrix** (https://gtmetrix.com) PDF —
+optional but a nice second-source exhibit.
 
 ---
 

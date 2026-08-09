@@ -4,12 +4,10 @@ Everything below is free, needs ~45 minutes in a normal browser, and fills the
 **[TO CAPTURE]** slots in `before-report.md`. Save every screenshot with the
 date visible into `audit/evidence/` (create the folder; keep originals unedited).
 
-## 1. PageSpeed (10 min)
-- https://pagespeed.web.dev → `https://www.techniconstruction.co.za`
-- Screenshot Mobile result + Desktop result (scores + metrics visible).
-- Copy the 4 scores + FCP/LCP/TBT/CLS into the table in `before-report.md` §3.
-- Alternative/automated: `bash audit/tools/run-psi.sh` (retries the free API;
-  quota pool is shared so it can take a few tries).
+## 1. PageSpeed (10 min) — ✅ DONE 9 Aug 2026, numbers in `before-report.md` §3
+- Still to do: save the pagespeed.web.dev result **screenshots** (mobile +
+  desktop, scores visible) into the evidence folder for the client pack.
+- Re-run at pitch time if more than ~a month has passed, so the "before" is fresh.
 
 ## 2. GTmetrix (5 min)
 - https://gtmetrix.com → run → download PDF → save to evidence folder.
