@@ -125,6 +125,34 @@ in §4.
   keywords (§2) are invisible to this score — 92 here does not contradict
   the visibility findings in §4.
 
+### Supplementary: single-load waterfall (captured 9 Aug 2026)
+
+A navigation-timing waterfall of one homepage load (times in ms from start):
+
+| Event | Stall | Start | Duration | End |
+|---|---|---|---|---|
+| Redirect | 0 | 0 | 0 | 0 |
+| DNS | 2 | 2 | 0 | 2 |
+| Connect | 0 | 2 | 0 | 2 |
+| **Request** | **1,007** | 1,009 | **1,817** | 2,826 |
+| Response | 0 | 2,826 | 1 | 2,827 |
+| Rendering | 2 | 2,829 | 1,984 | 4,813 |
+| — HTML parse (DOM building) | 2 | 2,829 | 964 | 3,793 |
+| — DOM + CSSOM readiness | 2 | 2,829 | 965 | 3,794 |
+| — DOMContentLoaded | 0 | 3,794 | 0 | 3,794 |
+| — Layout, paint & subresources | 0 | 3,794 | 1,019 | 4,813 |
+| **Load event** | 0 | 4,813 | 5 | **4,818** |
+
+**Reading:** in this run the browser waited **~2.8 seconds for the HTML
+document itself** (1.0 s stalled + 1.8 s waiting on the server) before a
+single pixel could be considered, then spent ~2.0 s parsing and rendering —
+load event at ~4.8 s. This is one load, not an average, and it differs from
+the Lighthouse run above (where the server answered instantly) — which is
+the point: **response time on the current hosting is erratic**, sometimes
+instant, sometimes ~3 s. Cheap shared WordPress hosting without page caching
+behaves exactly like this. For the after-report, capture a few loads and
+show the new site's consistency alongside its speed.
+
 Also captured for the client pack: **GTmetrix** (https://gtmetrix.com) PDF —
 optional but a nice second-source exhibit.
 
