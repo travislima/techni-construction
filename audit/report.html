@@ -1,0 +1,395 @@
+<title>Techni Construction — Website Health Report</title>
+<style>
+  :root {
+    --paper: #FAF9F6;
+    --card: #FFFFFF;
+    --line: #E3E0D8;
+    --ink: #22303C;
+    --ink-2: #5A6572;
+    --ink-3: #8A939D;
+    --accent: #2E5E8C;
+    --accent-soft: #E7EEF5;
+    --good: #1B7F4D;      --good-soft: #E3F1E9;
+    --warn: #9A5B00;      --warn-soft: #F7EBD7;
+    --crit: #B3261E;      --crit-soft: #F9E5E3;
+    --track: #EDEAE2;
+  }
+  :root:not([data-theme="light"]) { }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #161D24;
+      --card: #1E2731;
+      --line: #33404D;
+      --ink: #E8ECF0;
+      --ink-2: #A8B2BD;
+      --ink-3: #7C8792;
+      --accent: #8FB4D9;
+      --accent-soft: #253647;
+      --good: #6CC392;      --good-soft: #1E3529;
+      --warn: #E5B061;      --warn-soft: #3A2E1A;
+      --crit: #EA8B82;      --crit-soft: #3D2320;
+      --track: #2A3541;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #161D24;
+    --card: #1E2731;
+    --line: #33404D;
+    --ink: #E8ECF0;
+    --ink-2: #A8B2BD;
+    --ink-3: #7C8792;
+    --accent: #8FB4D9;
+    --accent-soft: #253647;
+    --good: #6CC392;      --good-soft: #1E3529;
+    --warn: #E5B061;      --warn-soft: #3A2E1A;
+    --crit: #EA8B82;      --crit-soft: #3D2320;
+    --track: #2A3541;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+    margin: 0;
+    padding: 0 20px 64px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  .display { font-family: Rockwell, "Roboto Slab", "Courier New", Georgia, serif; }
+
+  header.masthead { padding: 44px 0 20px; border-bottom: 3px solid var(--ink); }
+  .eyebrow {
+    text-transform: uppercase; letter-spacing: .14em; font-size: 12px;
+    color: var(--accent); font-weight: 700; margin: 0 0 10px;
+  }
+  h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.12; margin: 0 0 10px; text-wrap: balance; }
+  .meta { color: var(--ink-2); font-size: 14px; margin: 0; }
+  .meta strong { color: var(--ink); font-weight: 600; }
+
+  .verdict {
+    margin: 26px 0 8px; font-size: clamp(19px, 3vw, 23px); line-height: 1.35;
+    text-wrap: balance; font-weight: 500;
+  }
+  .verdict em { font-style: normal; border-bottom: 3px solid var(--warn); }
+  .method-note {
+    font-size: 13.5px; color: var(--ink-2); background: var(--card);
+    border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; margin: 18px 0 0;
+  }
+
+  h2 {
+    font-size: 21px; margin: 48px 0 6px; padding-top: 10px;
+  }
+  h2 .num {
+    color: var(--accent); font-size: 14px; letter-spacing: .1em;
+    display: block; margin-bottom: 2px;
+  }
+  .section-sub { color: var(--ink-2); margin: 0 0 18px; font-size: 15px; max-width: 62ch; }
+
+  /* stat tiles */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 22px 0 0; }
+  .tile {
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px 16px 13px; display: flex; flex-direction: column; gap: 6px;
+  }
+  .tile .label { font-size: 12.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); font-weight: 600; }
+  .tile .value { font-size: 32px; font-weight: 700; line-height: 1.05; font-variant-numeric: tabular-nums; }
+  .tile .value small { font-size: 16px; font-weight: 600; color: var(--ink-2); }
+  .tile .sowhat { font-size: 13.5px; color: var(--ink-2); margin-top: 2px; }
+
+  /* status pills — icon + word, never color alone */
+  .pill {
+    display: inline-flex; align-items: center; gap: 5px; align-self: flex-start;
+    font-size: 11.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+    border-radius: 999px; padding: 3px 9px;
+  }
+  .pill.crit { background: var(--crit-soft); color: var(--crit); }
+  .pill.warn { background: var(--warn-soft); color: var(--warn); }
+  .pill.good { background: var(--good-soft); color: var(--good); }
+  .pill.info { background: var(--accent-soft); color: var(--accent); }
+
+  /* findings */
+  .finding {
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 18px 20px; margin: 12px 0;
+  }
+  .finding .head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+  .finding h3 { font-size: 16.5px; margin: 0; }
+  .finding p { margin: 6px 0 0; font-size: 14.5px; color: var(--ink-2); max-width: 68ch; }
+  .finding p.sowhat { color: var(--ink); }
+  .finding p.sowhat::before {
+    content: "So what: "; font-weight: 700; color: var(--accent);
+  }
+
+  /* bar rows */
+  .bars { margin: 14px 0 4px; display: flex; flex-direction: column; gap: 10px; }
+  .barrow { display: grid; grid-template-columns: 150px 1fr; gap: 10px; align-items: center; font-size: 13.5px; }
+  .barrow .who { color: var(--ink-2); text-align: right; line-height: 1.25; }
+  .barrow .who strong { color: var(--ink); display: block; font-weight: 600; }
+  .track { position: relative; height: 22px; background: var(--track); border-radius: 6px; }
+  .fill {
+    position: absolute; inset: 3px auto 3px 3px; border-radius: 4px; min-width: 8px;
+    display: flex; align-items: center;
+  }
+  .fill.crit { background: var(--crit); }
+  .fill.good { background: var(--good); }
+  .fill.warn { background: var(--warn); }
+  .fill.accent { background: var(--accent); }
+  .fill .val {
+    position: absolute; left: calc(100% + 8px); white-space: nowrap;
+    font-weight: 700; font-size: 13px; color: var(--ink); font-variant-numeric: tabular-nums;
+  }
+  .bench { position: absolute; top: -5px; bottom: -5px; width: 2px; background: var(--ink); opacity: .55; }
+  .bench-label { font-size: 12px; color: var(--ink-2); margin-top: 2px; }
+  .bench-label b { color: var(--ink); }
+
+  /* score meters */
+  .scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 14px; }
+  .score { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .score .top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .score .name { font-size: 13.5px; font-weight: 600; color: var(--ink-2); }
+  .score .n { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .score .meter { height: 8px; border-radius: 4px; background: var(--track); position: relative; overflow: hidden; }
+  .score .meter i { position: absolute; inset: 0 auto 0 0; border-radius: 4px; display: block; }
+  .score .band { font-size: 12px; margin-top: 7px; color: var(--ink-2); }
+
+  /* good list */
+  ul.plain { list-style: none; padding: 0; margin: 12px 0 0; display: flex; flex-direction: column; gap: 8px; }
+  ul.plain li {
+    background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+    padding: 11px 14px; font-size: 14.5px; display: flex; gap: 10px; align-items: baseline;
+  }
+  ul.plain li .tick { color: var(--good); font-weight: 700; }
+  ul.plain li .src { margin-left: auto; }
+
+  /* what changes table */
+  table.delta { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 14px; }
+  table.delta th, table.delta td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.delta th { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-2); }
+  table.delta td.now { color: var(--crit); font-weight: 600; }
+  table.delta td.next { color: var(--good); font-weight: 600; }
+  .tablebox { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 4px 8px; }
+
+  /* sources */
+  a.src {
+    color: var(--accent); text-decoration: none; font-size: 11px; font-weight: 700;
+    vertical-align: super; line-height: 0; white-space: nowrap;
+  }
+  a.src:hover { text-decoration: underline; }
+  ol.sources { font-size: 13.5px; color: var(--ink-2); padding-left: 20px; margin: 12px 0 0; }
+  ol.sources li { margin: 7px 0; }
+  ol.sources b { color: var(--ink); font-weight: 600; }
+  footer { margin-top: 44px; border-top: 3px solid var(--ink); padding-top: 18px; }
+  footer .fine { font-size: 12.5px; color: var(--ink-3); margin-top: 16px; }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+  @media (max-width: 560px) {
+    .barrow { grid-template-columns: 1fr; gap: 4px; }
+    .barrow .who { text-align: left; }
+    .barrow .who strong { display: inline; }
+    .fill .val { font-size: 12px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .fill, .score .meter i { transition: width .6s ease; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow display">Website Health Report · Before</p>
+    <h1 class="display">techniconstruction.co.za — how the site is doing today</h1>
+    <p class="meta">Assessed <strong>9 August 2026</strong> · Every number below comes from a named, independent source (listed at the end) — nothing here is opinion.</p>
+  </header>
+
+  <p class="verdict">The company is credible — 33 years of building, top-tier CIDB&nbsp;7&nbsp;GB rating.<a class="src" href="#s8">[8]</a>
+  The website doesn't show it: it's <em>slow on phones, nearly invisible on Google, and showing 5 projects from three decades of work</em>.</p>
+
+  <div class="tiles">
+    <div class="tile">
+      <span class="pill crit">✕ Critical</span>
+      <span class="label">Wait on a phone</span>
+      <span class="value">8.0&thinsp;s</span>
+      <span class="sowhat">Until the main content appears. Google's acceptable limit is 2.5&thinsp;s — most visitors give up before 8. <a class="src" href="#s1">[1]</a></span>
+    </div>
+    <div class="tile">
+      <span class="pill warn">▲ Needs work</span>
+      <span class="label">Google speed score, mobile</span>
+      <span class="value">65<small>/100</small></span>
+      <span class="sowhat">Desktop scores 89 — the problem is specifically phones, where most local searches happen. <a class="src" href="#s1">[1]</a></span>
+    </div>
+    <div class="tile">
+      <span class="pill crit">✕ Critical</span>
+      <span class="label">Measurable visitors</span>
+      <span class="value">None</span>
+      <span class="sowhat">Both Google and SimilarWeb report <b>no data</b> — traffic is too low for the industry's tools to even register. <a class="src" href="#s2">[2]</a><a class="src" href="#s3">[3]</a></span>
+    </div>
+    <div class="tile">
+      <span class="pill warn">▲ Needs work</span>
+      <span class="label">Projects shown online</span>
+      <span class="value">5</span>
+      <span class="sowhat">From 33 years and projects up to R200&thinsp;M. The site asks visitors to phone for the rest. <a class="src" href="#s4">[4]</a></span>
+    </div>
+  </div>
+
+  <h2 class="display"><span class="num">FINDING 1</span>Speed: fine on a desktop, painful on a phone</h2>
+  <p class="section-sub">Google measures how long until a page's main content is visible ("Largest Contentful Paint"). Under 2.5 seconds is good; over 4 is failing.</p>
+
+  <div class="finding">
+    <div class="head"><h3>Time until the page's main content appears</h3></div>
+    <div class="bars" role="img" aria-label="Load time: this site on mobile 8.0 seconds, Google's limit 2.5 seconds, this site on desktop 1.2 seconds">
+      <div class="barrow">
+        <span class="who"><strong>This site — phone</strong></span>
+        <span class="track"><i class="fill crit" style="width:88%"><b class="val">8.0&thinsp;s</b></i><i class="bench" style="left:27.5%"></i></span>
+      </div>
+      <div class="barrow">
+        <span class="who"><strong>This site — desktop</strong></span>
+        <span class="track"><i class="fill good" style="width:13.2%"><b class="val">1.2&thinsp;s</b></i><i class="bench" style="left:27.5%"></i></span>
+      </div>
+    </div>
+    <p class="bench-label">│ marker = <b>2.5&thinsp;s</b>, Google's threshold for a "good" experience <a class="src" href="#s1">[1]</a></p>
+    <p>It isn't only phones: a real Chrome session on a desktop Mac measured <b>9.3&thinsp;s</b> before the first content appeared — rated "Poor" on every Google speed measure except layout stability.<a class="src" href="#s9">[9]</a></p>
+    <p class="sowhat">A customer who Googles a builder waits three to four times longer than Google's limit. Slow sites lose visitors before they see a single project — and Google ranks them lower because of it.</p>
+  </div>
+
+  <div class="finding">
+    <div class="head"><h3>The page is heavy, and nothing is saved for the next visit</h3></div>
+    <div class="bars" role="img" aria-label="Homepage download size: this site 3.2 megabytes, a well-built site about 1 megabyte">
+      <div class="barrow">
+        <span class="who"><strong>This homepage</strong></span>
+        <span class="track"><i class="fill warn" style="width:76%"><b class="val">3.2&thinsp;MB</b></i></span>
+      </div>
+      <div class="barrow">
+        <span class="who"><strong>A well-built site</strong></span>
+        <span class="track"><i class="fill accent" style="width:23.7%"><b class="val">≈1&thinsp;MB</b></i></span>
+      </div>
+    </div>
+    <p>Oversized photos make up most of the weight, and the server sends no instruction to remember them — so even returning visitors re-download everything, every time.<a class="src" href="#s1">[1]</a><a class="src" href="#s6">[6]</a></p>
+    <p class="sowhat">This is the single biggest fix. Properly sized photos and modern hosting would cut the page to a third of its size and take the 8-second wait to under 2.</p>
+  </div>
+
+  <div class="finding">
+    <div class="head"><h3>The server itself is slow and unpredictable</h3></div>
+    <p>Two independent real-visit measurements clocked the server at <b>2.8 seconds</b> just to hand over the page — 99.9% of that is the server "thinking", not the network — while a lab test the same evening got an instant response.<a class="src" href="#s7">[7]</a><a class="src" href="#s9">[9]</a><a class="src" href="#s1">[1]</a> Google rates anything over 1.8&thinsp;s as "Poor".</p>
+    <p class="sowhat">This is what budget shared hosting looks like from the outside: sometimes fine, sometimes slow, with no way to know which a customer will get.</p>
+  </div>
+
+  <div class="finding">
+    <div class="head"><h3>Under the bonnet: assembled from too many pieces</h3></div>
+    <p>The homepage pulls in <b>27 separate stylesheet files</b> and 16 scripts over an older connection standard (HTTP/1.1) that makes them queue single-file.<a class="src" href="#s9">[9]</a><a class="src" href="#s6">[6]</a> The big "Teamwork — built on excellence" banner — the first thing on the page — isn't marked as a priority, and two of the images at the top are explicitly told to load <i>late</i>.<a class="src" href="#s9">[9]</a> 11 of the 13 images have no text description, which search engines and screen readers rely on.<a class="src" href="#s9">[9]</a></p>
+    <p class="sowhat">None of this is the content's fault — it's assembly. A rebuild ships one stylesheet, prioritises the banner, and describes every photo; the same content, delivered properly.</p>
+  </div>
+
+  <h2 class="display"><span class="num">FINDING 2</span>Being found: the site only ranks for its own name</h2>
+  <p class="section-sub">A website earns its keep when people who <i>don't</i> know the company yet can find it.</p>
+
+  <div class="finding">
+    <div class="head"><span class="pill crit">✕ Critical</span><h3>Google is told the site is about… "Techni Construction – Techni Construction"</h3></div>
+    <p>That is the site's actual headline in Google's index — the brand name twice, with no mention of <i>construction company</i>, <i>builders</i>, <i>Port Elizabeth</i> or <i>Gqeberha</i>.<a class="src" href="#s4">[4]</a></p>
+    <p class="sowhat">Someone searching "construction companies Port Elizabeth" finds directory sites — which list Techni <i>next to its competitors</i> — instead of Techni's own site. The company is a line item on other people's pages.</p>
+  </div>
+
+  <div class="finding">
+    <div class="head"><span class="pill warn">▲ Needs work</span><h3>Facebook: 1,978 followers, nobody home</h3></div>
+    <p>The page has a real audience but almost no activity ("2 people talking about this") — and a second, duplicate Techni Construction page (≈1,700 likes) splits that audience in two.<a class="src" href="#s5">[5]</a></p>
+    <p class="sowhat">Nearly 3,700 combined followers is a genuine asset most competitors don't have — currently going unused.</p>
+  </div>
+
+  <div class="finding">
+    <div class="head"><span class="pill crit">✕ Critical</span><h3>The Google Maps listing is working against the company</h3></div>
+    <p>For a local contractor, the Google Maps listing usually brings more enquiries than the website itself. Techni's listing:<a class="src" href="#s10">[10]</a></p>
+    <p>· Appears <b>unclaimed</b> ("Own this business?" is showing) — anyone can suggest edits to it.<br>
+       · Its <b>Website button sends people to Facebook</b> — a link that now dead-ends in a redirect — instead of techniconstruction.co.za.<br>
+       · <b>4.1★ from 11 reviews</b>; the newest review (~10 months ago) is a 1★, and no review has ever received a reply.<br>
+       · <b>3 photos</b> in total — the cover image a searcher sees is a photo of a branded cake from six years ago.<br>
+       · The address on Maps doesn't match the address on the website (different suburb and postcode).</p>
+    <p class="sowhat">This is the highest-return fix on this entire report and it costs nothing but time: reclaim the listing, point the button at the website, load 20–30 project photos, and start asking happy clients for reviews.</p>
+  </div>
+
+  <div class="finding">
+    <div class="head"><h3>Where Techni ranks on Google Maps — its own neighbourhood</h3></div>
+    <p>Search: <i>"construction company near Walmer, Gqeberha"</i> — Techni came <b>8th of 8</b>, with the lowest rating in the set.<a class="src" href="#s10">[10]</a></p>
+    <div class="tablebox">
+      <table class="delta">
+        <thead><tr><th>Rank</th><th>Company</th><th>Rating</th><th>Reviews</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Randcivils — <i>same street, 11 Giulietti Rd</i></td><td>4.8&thinsp;★</td><td>34</td></tr>
+          <tr><td>2</td><td>Alpha Omega</td><td>4.9&thinsp;★</td><td>20</td></tr>
+          <tr><td>6</td><td>L t root construction</td><td>4.8&thinsp;★</td><td>51</td></tr>
+          <tr><td class="now">8</td><td><b>Techni Construction</b></td><td class="now">4.1&thinsp;★</td><td class="now">11</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sowhat">The most established firm on the street is the least visible on it. Competitors with a fraction of Techni's track record outrank it because they tend their listings — reviews, photos, services — and Techni's has been left unattended.</p>
+  </div>
+
+  <h2 class="display"><span class="num">FINDING 3</span>What the site already does well</h2>
+  <p class="section-sub">A fair report cuts both ways — these are real strengths, worth keeping.</p>
+
+  <div class="scores">
+    <div class="score">
+      <div class="top"><span class="name">Accessibility</span><span class="n">96<small>/100</small></span></div>
+      <div class="meter"><i style="width:96%; background: var(--good)"></i></div>
+      <div class="band">Strong on automated checks <a class="src" href="#s1">[1]</a></div>
+    </div>
+    <div class="score">
+      <div class="top"><span class="name">Best practices</span><span class="n">96<small>/100</small></span></div>
+      <div class="meter"><i style="width:96%; background: var(--good)"></i></div>
+      <div class="band">Secure (HTTPS), no broken basics <a class="src" href="#s1">[1]</a></div>
+    </div>
+    <div class="score">
+      <div class="top"><span class="name">Speed — desktop</span><span class="n">89<small>/100</small></span></div>
+      <div class="meter"><i style="width:89%; background: var(--warn)"></i></div>
+      <div class="band">Nearly there on a computer <a class="src" href="#s1">[1]</a></div>
+    </div>
+    <div class="score">
+      <div class="top"><span class="name">Speed — mobile</span><span class="n">65<small>/100</small></span></div>
+      <div class="meter"><i style="width:65%; background: var(--warn)"></i></div>
+      <div class="band">The gap to close <a class="src" href="#s1">[1]</a></div>
+    </div>
+  </div>
+
+  <ul class="plain">
+    <li><span class="tick">✓</span> The page is stable while it loads — no content jumping around (a perfect 0.000 on Google's layout-shift measure). <a class="src" href="#s9">[9]</a></li>
+    <li><span class="tick">✓</span> The right domain — techniconstruction.co.za is the exact brand name, and it stays. <a class="src" href="#s4">[4]</a></li>
+    <li><span class="tick">✓</span> The raw material is strong: CIDB 7 GB, BEE Level 4, MBA member, named projects with real values (House Venter — 550 m², R9 M). <a class="src" href="#s8">[8]</a></li>
+    <li><span class="tick">✓</span> Contact details are consistent across the web's directories — good for local search. <a class="src" href="#s8">[8]</a></li>
+  </ul>
+
+  <h2 class="display"><span class="num">THE POINT</span>What a rebuilt site changes</h2>
+  <p class="section-sub">The people who hire a CIDB 7 GB contractor — architects, quantity surveyors, developers, serious private clients — check the website when they shortlist. Today it answers a fraction of their questions and asks them to phone for the rest. Every gap is a place to quietly lose a job.</p>
+
+  <div class="tablebox">
+    <table class="delta">
+      <thead><tr><th>What matters</th><th>Today</th><th>Rebuilt</th></tr></thead>
+      <tbody>
+        <tr><td>Main content on a phone</td><td class="now">8.0 s</td><td class="next">under 2 s</td></tr>
+        <tr><td>Projects on show</td><td class="now">5</td><td class="next">15–25, filterable, with sizes &amp; values</td></tr>
+        <tr><td>Credentials for tender vetting</td><td class="now">Scattered text</td><td class="next">One page + downloadable company profile PDF</td></tr>
+        <tr><td>Getting an enquiry in</td><td class="now">Phone / fax number</td><td class="next">Quote form + tap-to-call, answered from anywhere</td></tr>
+        <tr><td>Found for "construction company Port Elizabeth"</td><td class="now">Directories rank instead</td><td class="next">Site built to compete for it</td></tr>
+        <tr><td>Google Maps listing</td><td class="now">Unclaimed · links to Facebook · cake as cover photo</td><td class="next">Claimed, linked to the site, project photos, review programme</td></tr>
+        <tr><td>Proof it's working</td><td class="now">No measurement at all</td><td class="next">Google's own visitor numbers, reported quarterly</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <h2 class="display" style="margin-top:0"><span class="num">APPENDIX</span>Sources</h2>
+    <ol class="sources">
+      <li id="s1"><b>Google PageSpeed Insights</b> (Lighthouse 13.4.1) — homepage test, 9 Aug 2026, 21:21 SAST. Emulated mid-range phone (Moto G Power) and desktop. Scores, load times, page weight, image &amp; caching diagnostics.</li>
+      <li id="s2"><b>Google Chrome UX Report (CrUX)</b> — Google's database of real-visitor speed data: <i>no data held for this site</i> on either phone or desktop (below minimum-traffic threshold), 9 Aug 2026.</li>
+      <li id="s3"><b>SimilarWeb</b> — no traffic report available for the domain (their tools require roughly 5,000+ visits/month to register a site), checked 9 Aug 2026.</li>
+      <li id="s4"><b>Google Search index</b> — site: queries and indexed page titles for techniconstruction.co.za, 9 Aug 2026.</li>
+      <li id="s5"><b>Facebook</b> — pages "Techni Construction" (ID 100057326985682: 1,978 likes) and duplicate (ID 337027756506698: ≈1,702 likes), 9 Aug 2026.</li>
+      <li id="s6"><b>Server response headers</b> — live capture of the homepage response, 9 Aug 2026 (Apache/2, HTTP/1.1, no caching directives, WordPress REST endpoint advertised).</li>
+      <li id="s7"><b>Single-visit load waterfall</b> — navigation timing capture, 9 Aug 2026 (2.8 s to first byte of the page document in that run).</li>
+      <li id="s8"><b>Company records &amp; directories</b> — techniconstruction.co.za's own indexed content; ECMBA member listing; Procompare, SA Yellow &amp; AfricanAdvice directory listings, 9 Aug 2026.</li>
+      <li id="s9"><b>Core Web Vitals browser capture</b> — real Chrome session on desktop, 9 Aug 2026 (Web Vitals extension): FCP/LCP 9.26&thinsp;s, TTFB 2.83&thinsp;s, CLS 0.000; media &amp; resource audit (13 images, 11 without alt text, 27 stylesheets, 16 scripts).</li>
+      <li id="s10"><b>Google Business Profile &amp; Maps</b> — knowledge panel, place page and local results for "construction company near Walmer, Gqeberha", 9 Aug 2026. Full detail in the companion GBP audit.</li>
+    </ol>
+    <p class="fine">Prepared as the "before" baseline of a before/after comparison. Lab speed tests (source 1) are single controlled runs and can vary a few percent between runs; the pattern they show here — slow mobile, heavy images, no caching — is consistent across every measurement taken.</p>
+  </footer>
+
+</div>

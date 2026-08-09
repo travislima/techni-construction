@@ -137,6 +137,25 @@ in §4.
   keywords (§2) are invisible to this score — 92 here does not contradict
   the visibility findings in §4.
 
+### Supplementary: real-browser Core Web Vitals capture (9 Aug 2026)
+
+A real Chrome session on a desktop Mac (Web Vitals extension, single pageview):
+
+| Metric | Value | Google rating |
+|---|---|---|
+| First/Largest Contentful Paint | **9.26 s** | Poor |
+| Time To First Byte | **2.83 s** (99.9% = server processing) | Poor |
+| Cumulative Layout Shift | 0.000 | Good |
+
+Build details from the same capture: **27 separate CSS files** and 16 scripts
+(queueing on HTTP/1.1); the LCP element is the "Teamwork — Built on
+Excellence" banner image, **not preloaded** (preloading would save ~631 ms);
+**2 images lazy-loaded above the fold** (delaying the first content a visitor
+sees); **11 of 13 images missing alt text**; DOM 800 nodes / 116 KB HTML —
+modest, so the weight problem is images and file count, not page structure.
+Note this desktop real-world run was *slower than the lab's emulated phone* —
+consistent with the erratic-server finding below.
+
 ### Supplementary: single-load waterfall (captured 9 Aug 2026)
 
 A navigation-timing waterfall of one homepage load (times in ms from start):
@@ -189,10 +208,14 @@ optional but a nice second-source exhibit.
   SA Yellow, AfricanAdvice, Placedigger, OpenHours-SouthAfrica, ZoomInfo and
   the ECMBA site. These outrank the site for some queries and none link back
   in a managed way.
-- **[TO CAPTURE]** Google Business Profile: does one exist? Review count and
-  star rating? (Search Google Maps for "Techni Construction Port Elizabeth".)
-  For a local contractor this single asset usually drives more enquiries than
-  the website itself.
+- ✅ **Google Business Profile audited 9 Aug 2026 — see `gbp-audit.md` for the
+  full report.** Headlines: profile appears **unclaimed**; the Website button
+  points to a dead Facebook redirect instead of the site; 4.1★ from 11
+  star-only reviews (newest, ~10 months old, is an unanswered 1★); 3 photos
+  with a six-year-old cake as cover image; ranks **8th of 8** for
+  "construction company near Walmer, Gqeberha" — behind Randcivils (4.8★, 34
+  reviews) on the same street. A second location (Gqeberha Sales Centre,
+  Struandale) has no Google listing at all. Overall GBP health: 3/16, critical.
 - **[TO CAPTURE]** Google Search Console data (needs owner access — ask your
   friend to add you): actual clicks/impressions per month, which proves the
   traffic story with Google's own numbers rather than estimates.
