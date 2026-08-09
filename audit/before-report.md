@@ -72,7 +72,19 @@ job is capturing inbound enquiries. The current site under-serves both — see b
 3. ✅ **Thin portfolio.** Five-ish project pages for a 30-year-old firm with a
    R200M project ceiling. The strongest sales asset the company owns (its built
    work) is mostly invisible online.
-4. **[TO CAPTURE]** Theme/page-builder in use, plugin stack, WordPress version
+4. ✅ **Server response headers** (captured 9 Aug 2026, homepage GET):
+   - `Link: <…/wp-json/>` — WordPress confirmed definitively (REST API
+     advertised on every response).
+   - `Server: Apache/2` over **HTTP/1.1** — no HTTP/2/3. With a 3–4.5 MB,
+     image-heavy page, assets queue on a handful of connections instead of
+     multiplexing; this directly inflates the 8 s mobile LCP.
+   - **No `Cache-Control`/`Expires` on the response** — matching
+     Lighthouse's "inefficient cache lifetimes" finding (§3): repeat
+     visitors re-download the site every time.
+   - No CDN in evidence, no security headers (HSTS etc.).
+   - Gzip compression is enabled (HTML ~16.6 KB compressed) — one thing
+     configured correctly.
+5. **[TO CAPTURE]** Theme/page-builder in use, plugin stack, WordPress version
    exposure, last-updated dates, copyright year in footer.
 
 ---
