@@ -191,12 +191,12 @@ optional but a nice second-source exhibit.
 
 ## 4. Traffic & visibility data
 
-- ✅ **SimilarWeb: no public report exists for techniconstruction.co.za.**
-  This is itself a finding — SimilarWeb generally cannot produce estimates for
-  sites under roughly 5,000 visits/month. The honest statement for the client:
-  *"your site's traffic is too low for the industry's standard measurement
-  tools to even register it."* Do **not** present invented numbers; absence of
-  data is the data.
+- ✅ **SimilarWeb (June 2026, retrieved 9 Aug 2026): 530 total visits for the
+  month** (~17/day), bounce rate 34.56%, **1.61 pages per visit, average
+  visit duration 5 seconds**, and no global/country/category rank (too small
+  to be ranked). Estimates at this traffic level are approximate — present
+  the scale, not the precise figure. The 5-second average visit is the
+  headline: the few people who do arrive leave almost immediately.
 - ✅ **Search visibility:** the site ranks for its own name, but generic
   local queries ("construction companies Port Elizabeth") surface directories
   (Procompare's "Top 19 Construction companies Port Elizabeth" page) and
