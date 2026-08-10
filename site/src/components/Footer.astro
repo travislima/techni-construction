@@ -59,13 +59,13 @@ const year = new Date().getFullYear();
   .creds { font: 500 12px var(--font-mono); color: #a89c8d; margin-top: 22px; letter-spacing: 0.06em; }
   .colhead { font: 600 12px var(--font-mono); letter-spacing: 0.14em; color: #a89c8d; margin-bottom: 14px; }
   .addr { font: 400 14px/1.7 var(--font-display); margin: 0; }
-  .tel { display: inline-block; font: 500 14px var(--font-mono); color: #fff; text-decoration: none; margin-top: 12px; }
+  .tel { display: inline-block; font: 500 14px var(--font-mono); color: #fff; text-decoration: none; margin-top: 12px; padding: 4px 0; }
   .tel:hover { color: #e0a294; }
-  .mail { font: 400 13px var(--font-display); color: #cfc7bc; }
+  .mail { display: inline-block; font: 400 13px var(--font-display); color: #cfc7bc; padding: 7px 0; }
   .mail:hover { color: #fff; }
   .hours { font: 400 13px/1.6 var(--font-display); margin: 12px 0 0; color: #a89c8d; }
-  nav { display: flex; flex-direction: column; gap: 10px; }
-  nav a { font: 400 14px var(--font-display); color: #cfc7bc; text-decoration: none; }
+  nav { display: flex; flex-direction: column; gap: 6px; }
+  nav a { font: 400 14px var(--font-display); color: #cfc7bc; text-decoration: none; padding: 5px 0; }
   nav a:hover { color: #fff; }
   .legal {
     margin-top: 48px;
@@ -77,7 +77,7 @@ const year = new Date().getFullYear();
     flex-wrap: wrap;
     gap: 12px;
   }
-  .legal span { font: 400 12px var(--font-display); color: #8c8378; }
+  .legal span { font: 400 12px var(--font-display); color: #a89c8d; } /* was #8c8378 — 3.1:1 on the ink footer, below WCAG AA */
   @media (max-width: 900px) { .cols { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px) { .cols { grid-template-columns: 1fr; gap: 36px; } }
 </style>

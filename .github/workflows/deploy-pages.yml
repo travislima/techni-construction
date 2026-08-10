@@ -31,13 +31,25 @@ jobs:
         working-directory: site
         run: npm ci
 
-      # GitHub's runners have normal internet access, so try to swap the
-      # committed placeholder images for the real photos from the old site.
-      # If the old site blocks the download, the build ships placeholders.
+      # GitHub's runners have normal internet access, so swap the committed
+      # placeholder images for the real photos from the old site.
       - name: Fetch real photos (best effort)
         working-directory: site
         continue-on-error: true
         run: node scripts/fetch-assets.mjs
+
+      # Guard: never deploy a build without the real photos — a failed fetch
+      # must keep the last good deployment live, not replace it with grey
+      # placeholders. (Sentinel: the hero photo is ~1.5 MB; placeholders and
+      # block pages are under 100 KB.)
+      - name: Require real photos before deploying
+        run: |
+          size=$(stat -c%s site/src/assets/photos/venter-1.jpg)
+          echo "venter-1.jpg is ${size} bytes"
+          if [ "$size" -lt 100000 ]; then
+            echo "Real photos unavailable this run — refusing to deploy placeholders over the live site."
+            exit 1
+          fi
 
       - name: Build
         working-directory: site

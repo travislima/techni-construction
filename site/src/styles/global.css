@@ -11,7 +11,7 @@
   --stripe-b: #E4DED5;
   --body-2: #57503F;
   --meta: #6E655A;
-  --meta-faint: #8C8378;
+  --meta-faint: #6E655A; /* darkened from #8C8378 — that value fails WCAG AA (3.6:1) on the paper background */
   --brick: #8A2B1D;
   --brick-hover: #6F2116;
   --brick-pale: #E8C9BE;
@@ -96,11 +96,12 @@ h2.section {
 }
 .btn-ghost-light:hover { border-color: #FFF; background: rgba(255,255,255,.1); color: #FFF; }
 .link-underline {
+  display: inline-block;
   font: 600 15px var(--font-display);
   color: var(--brick);
   text-decoration: none;
   border-bottom: 2px solid var(--brick);
-  padding-bottom: 3px;
+  padding: 8px 0 3px; /* top padding grows the touch target to ≥24px */
 }
 .link-underline:hover { color: var(--brick-hover); }
 

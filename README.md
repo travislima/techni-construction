@@ -12,6 +12,7 @@ Gqeberha (Port Elizabeth) construction firm, est. 1993, CIDB 7 GB.
 | [`audit/report.html`](audit/report.html) | Client-facing report dashboard — plain-language findings, every number sourced |
 | [`audit/gbp-audit.md`](audit/gbp-audit.md) | Google Business Profile audit — scorecard, competitive benchmark, action plan |
 | [`audit/design-brief.md`](audit/design-brief.md) | Self-contained brief for the rebuild — paste into a Claude design session as-is |
+| [`audit/after-report.md`](audit/after-report.md) | The "after" audit of the rebuilt site — same tools, sourced before/after table |
 | [`audit/data-capture-checklist.md`](audit/data-capture-checklist.md) | ~45 min of browser captures that fill the report's remaining `[TO CAPTURE]` slots |
 | [`audit/rebuild-plan.md`](audit/rebuild-plan.md) | Utility-first rebuild plan, timeline, pricing logic, pitch narrative |
 | [`audit/tools/run-psi.sh`](audit/tools/run-psi.sh) | Scripted Google PageSpeed capture (mobile + desktop) |
