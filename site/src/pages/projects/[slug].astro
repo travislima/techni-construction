@@ -61,9 +61,9 @@ const schema = [
           <Image src={g.src} alt={g.alt} widths={[420, 640, 900]} sizes="(max-width: 900px) 45vw, 300px" class="cell" loading="lazy" />
         )
       ))}
-      <div class="more-slot">
-        <span>3–8 photos per project<br />slots ready for the full set</span>
-      </div>
+      <a href={href('/contact/')} class="more-slot">
+        <span>The full photo set for this build<br />is available — <b>ask us →</b></span>
+      </a>
     </div>
 
     <div class="body">
@@ -127,11 +127,14 @@ const schema = [
     background: var(--stripe-b);
   }
   .more-slot {
-    background: var(--ink); color: #fff;
+    background: var(--ink);
     display: flex; align-items: center; justify-content: center;
     padding: 20px;
+    text-decoration: none;
   }
-  .more-slot span { font: 500 13px/1.5 var(--font-mono); color: #a89c8d; text-align: center; }
+  .more-slot span { font: 500 13px/1.6 var(--font-mono); color: #a89c8d; text-align: center; }
+  .more-slot b { color: #fff; font-weight: 600; }
+  .more-slot:hover b { color: var(--brick-pale, #e8c9be); }
   @media (max-width: 900px) {
     .gallery { grid-template-columns: 1fr 1fr; }
     .gallery :global(.lead) { grid-column: span 2; grid-row: auto; min-height: 0; aspect-ratio: 4/3; }

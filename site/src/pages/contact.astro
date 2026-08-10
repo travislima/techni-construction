@@ -95,7 +95,7 @@ const schema = [
       </form>
 
       <div id="form-success" role="status" hidden>
-        <div class="ok-head">Thank you — enquiry sent.</div>
+        <div class="ok-head" id="ok-head">Thank you — enquiry sent.</div>
         <p>
           We respond within one business day. If it's urgent, call
           <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a> — {SITE.hours}.
@@ -119,17 +119,16 @@ const schema = [
         <p class="aside-hours">MON–FRI 07:30–16:30</p>
         <a href={`mailto:${SITE.email}`} class="aside-mail">{SITE.email}</a>
       </div>
-      <a
-        class="map"
-        href={`https://www.google.com/maps/search/?api=1&query=${SITE.address.lat},${SITE.address.lng}`}
-        rel="noopener"
-        target="_blank"
-        aria-label="Open Techni Construction head office in Google Maps"
-      >
-        {/* Replace this striped placeholder with a static map image before launch
-            (keep it an <img loading="lazy"> — it must not affect LCP). */}
-        <span>map — Giulietti Rd, Walmer · open in Google Maps</span>
-      </a>
+      <div class="locate">
+        <div class="locate-head">FIND US</div>
+        <p class="locate-line">Walmer Dunes Industrial, Gqeberha · Plus code 2H5J+9C</p>
+        <a
+          class="btn btn-ink locate-btn"
+          href={`https://www.google.com/maps/search/?api=1&query=${SITE.address.lat},${SITE.address.lng}`}
+          rel="noopener"
+          target="_blank"
+        >Open in Google Maps ↗</a>
+      </div>
       <div class="aside-block">
         <div class="aside-head">{SITE.salesCentre.label.toUpperCase()}</div>
         <p class="aside-addr">{SITE.salesCentre.street}<br />{SITE.salesCentre.city}, {SITE.salesCentre.postal}</p>
@@ -177,22 +176,14 @@ const schema = [
   .aside-mail { display: inline-block; font: 400 14px var(--font-display); color: var(--brick); margin-top: 4px; padding: 6px 0; }
   .aside-phone2 { display: inline-block; font: 600 15px var(--font-mono); color: var(--ink); text-decoration: none; margin-top: 8px; padding: 4px 0; }
   .aside-phone2:hover { color: var(--brick); }
-  .map {
-    display: flex;
-    aspect-ratio: 16/10;
-    background: repeating-linear-gradient(45deg, var(--stripe-a) 0 14px, var(--stripe-b) 14px 28px);
-    align-items: center;
-    justify-content: center;
+  .locate {
+    padding: 26px 28px;
     border-bottom: 1px solid var(--line);
-    text-decoration: none;
+    background: var(--wash);
   }
-  .map span {
-    font: 500 12px var(--font-mono);
-    color: var(--meta);
-    background: #fff;
-    padding: 8px 14px;
-    border: 1px solid var(--line);
-  }
+  .locate-head { font: 600 12px var(--font-mono); letter-spacing: .16em; color: var(--brick); margin-bottom: 10px; }
+  .locate-line { font: 400 14px/1.6 var(--font-display); color: var(--body-2); margin: 0 0 16px; }
+  .locate-btn { padding: 12px 20px; font-size: 14px; }
 
   .callbar { display: none; }
   @media (max-width: 900px) {
@@ -227,6 +218,8 @@ const schema = [
         .map((k) => `${k}: ${data.get(k) || '-'}`)
         .join('\n');
       location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent('Quote enquiry — website')}&body=${encodeURIComponent(body)}`;
+      // Honest state: the email app opened with a draft — it still needs sending.
+      document.getElementById('ok-head')!.textContent = 'One more step — press send in your email app.';
       form.hidden = true;
       ok.hidden = false;
       return;

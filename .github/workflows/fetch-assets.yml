@@ -27,14 +27,23 @@ jobs:
         working-directory: site
         run: node scripts/fetch-assets.mjs
 
+      - name: Install dependencies (sharp, for thumbnails)
+        working-directory: site
+        run: npm ci
+
+      - name: Generate hero-candidate review thumbnails
+        working-directory: site
+        run: node scripts/make-hero-candidates.mjs
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add site/src/assets/photos
+          git add site/src/assets/photos design/hero-candidates
           if git diff --cached --quiet; then
             echo "No changes — photos already current."
           else
-            git commit -m "Replace placeholder images with real photos from the old site"
+            git commit -m "Commit real photos and hero-candidate thumbnails"
+            git pull --rebase origin main
             git push origin main
           fi
