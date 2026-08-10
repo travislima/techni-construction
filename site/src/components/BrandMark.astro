@@ -1,0 +1,41 @@
+---
+// The header/footer brand lockup. The monogram tile is drawn in code
+// (crisp at any DPI, no background-box issues) instead of using the old
+// site's 270px site-icon crop, which is illegible at header size.
+interface Props {
+  /** 'light' on paper backgrounds, 'dark' on the ink footer. */
+  variant?: 'light' | 'dark';
+}
+const { variant = 'light' } = Astro.props;
+---
+
+<span class:list={['brandmark', variant]}>
+  <span class="tile" aria-hidden="true">TC</span>
+  <span class="words">
+    <span class="w1">TECHNI</span>
+    <span class="w2">CONSTRUCTION</span>
+  </span>
+</span>
+
+<style>
+  .brandmark { display: flex; align-items: center; gap: 12px; }
+  .tile {
+    width: 42px;
+    height: 42px;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--brick);
+    color: #fff;
+    font: 900 17px var(--font-display);
+    letter-spacing: -0.02em;
+    border-radius: 4px;
+    user-select: none;
+  }
+  .words { display: flex; flex-direction: column; line-height: 1; }
+  .w1 { font: 800 17px var(--font-display); letter-spacing: 0.02em; color: var(--ink); }
+  .w2 { font: 600 9.5px var(--font-display); letter-spacing: 0.34em; color: var(--brick); }
+  .brandmark.dark .w1 { color: #fff; }
+  .brandmark.dark .w2 { color: var(--brick-pale); }
+</style>

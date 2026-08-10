@@ -1,4 +1,5 @@
 ---
+import BrandMark from './BrandMark.astro';
 import { SITE } from '../config';
 import { href } from '../lib/paths';
 const year = new Date().getFullYear();
@@ -7,7 +8,7 @@ const year = new Date().getFullYear();
 <footer>
   <div class="wrap cols">
     <div>
-      <div class="brand">TECHNI CONSTRUCTION</div>
+      <BrandMark variant="dark" />
       <p class="blurb">
         Teamwork. Built on excellence. Residential, commercial and industrial
         construction in Nelson Mandela Bay since 1993.
