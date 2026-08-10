@@ -5,8 +5,8 @@ import Base from '../layouts/Base.astro';
 import { href } from '../lib/paths';
 import CTABand from '../components/CTABand.astro';
 import { SITE } from '../config';
-import heroSrc from '../assets/photos/venter-1.jpg';
-import thorndaleImg from '../assets/photos/thorndale-1.jpg';
+import heroSrc from '../assets/photos/southcity-1.jpg';
+import sinceImg from '../assets/photos/venter-1.jpg';
 
 // The hero is the LCP element: preloaded, fetchpriority=high, never lazy.
 const hero = await getImage({
@@ -16,7 +16,7 @@ const hero = await getImage({
   format: 'webp',
 });
 const heroAlt =
-  'House Venter, an upmarket double-storey home built by Techni Construction in the Royalston private game reserve, Gqeberha';
+  'South City office block at dusk — a double-storey office development built by Techni Construction, Gqeberha';
 
 const projects = await getCollection('projects');
 const bySlug = (id: string) => projects.find((p) => p.id === id)!;
@@ -144,7 +144,7 @@ const schema = [
       <a href={href('/projects/#residential')}>
         <div class="s-count">01 — {count('Residential')} PROJECTS</div>
         <div class="s-name">Residential</div>
-        <p>Upmarket homes, estates and lodges — from Royalston to Greater Addo. Owner-builders and architects welcome.</p>
+        <p>Upmarket homes, estates and lodges — including House Venter at Royalston and Thorndale Lodge in Greater Addo.</p>
         <div class="s-link">See residential work →</div>
       </a>
       <a href={href('/projects/#commercial')}>
@@ -185,8 +185,8 @@ const schema = [
   <section aria-label="Since 1993" class="wrap since">
     <div class="pcard-imgbox">
       <Image
-        src={thorndaleImg}
-        alt="Thorndale private hunting lodge in Greater Addo, built by Techni Construction"
+        src={sinceImg}
+        alt="House Venter nearing completion, with a Techni Construction team member at work on the terrace"
         widths={[600, 900, 1200]}
         sizes="(max-width: 900px) 92vw, 600px"
         loading="lazy"
@@ -212,7 +212,7 @@ const schema = [
 
   <CTABand
     heading="Planning a build? Vetting a contractor?"
-    sub="We respond to every enquiry within one business day."
+    sub="The office answers Mon–Fri, 07:30–16:30."
   />
 </Base>
 
