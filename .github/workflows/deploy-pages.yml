@@ -49,7 +49,8 @@ jobs:
       # This is a staging URL — keep it out of search engines so it never
       # competes with the real domain.
       - name: Noindex staging
-        run: printf 'User-agent: *\nDisallow: /\n' > site/dist/robots.txt
+        run: |
+          printf 'User-agent: *\nDisallow: /\n' > site/dist/robots.txt
 
       - uses: actions/configure-pages@v5
         with:
