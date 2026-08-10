@@ -18,6 +18,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -36,6 +37,8 @@ jobs:
       - name: Fetch real photos (best effort)
         working-directory: site
         continue-on-error: true
+        env:
+          FETCH_ATTEMPTS: 1 # fail fast in deploys; the guard below decides
         run: node scripts/fetch-assets.mjs
 
       # Guard: never deploy a build without the real photos — a failed fetch

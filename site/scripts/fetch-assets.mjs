@@ -25,13 +25,18 @@ const isRealImage = (buf) =>
   (buf.length > 2048 && buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff) || // JPEG
   (buf.length > 2048 && buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47); // PNG
 
+// FETCH_ATTEMPTS=1 makes CI fail fast; default 3 for interactive runs.
+const ATTEMPTS = Math.max(1, Number(process.env.FETCH_ATTEMPTS) || 3);
+
 let ok = 0;
 const failed = [];
 for (const [local, url] of Object.entries(MANIFEST)) {
   let done = false;
-  for (let attempt = 1; attempt <= 3 && !done; attempt++) {
+  for (let attempt = 1; attempt <= ATTEMPTS && !done; attempt++) {
     try {
-      const res = await fetch(url, { headers: HEADERS });
+      // Hard per-request timeout — the host has been observed holding
+      // connections open indefinitely when rate limiting.
+      const res = await fetch(url, { headers: HEADERS, signal: AbortSignal.timeout(15_000) });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const buf = Buffer.from(await res.arrayBuffer());
       if (!isRealImage(buf)) throw new Error(`not an image (${buf.length} B — likely a block page)`);
@@ -40,7 +45,7 @@ for (const [local, url] of Object.entries(MANIFEST)) {
       done = true;
       console.log(`ok   ${local}  (${(buf.length / 1024).toFixed(0)} KB)`);
     } catch (e) {
-      if (attempt === 3) {
+      if (attempt === ATTEMPTS) {
         failed.push(local);
         console.error(`FAIL ${local}  — ${e.message} (existing file left untouched)`);
       } else {

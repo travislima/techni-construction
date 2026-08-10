@@ -13,9 +13,16 @@ on:
 permissions:
   contents: write
 
+# A new run cancels any stuck predecessor (the old host has tar-pitted
+# connections before; timeout-minutes is the backstop).
+concurrency:
+  group: fetch-assets
+  cancel-in-progress: true
+
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
