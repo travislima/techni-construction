@@ -6,6 +6,9 @@ name: Fetch real photos into the repo
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/fetch-assets-trigger']
 
 permissions:
   contents: write
