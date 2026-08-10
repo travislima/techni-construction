@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { href } from '../../lib/paths';
 import { SITE } from '../../config';
 
 export async function getStaticPaths() {
@@ -22,7 +23,7 @@ const i = all.findIndex((x) => x.id === project.id);
 const prev = all[(i - 1 + all.length) % all.length];
 const next = all[(i + 1) % all.length];
 const navHref = (x: (typeof all)[number]) =>
-  x.data.caseStudy ? `/projects/${x.id}/` : `/projects/#${x.data.sector.toLowerCase()}`;
+  x.data.caseStudy ? href(`/projects/${x.id}/`) : href(`/projects/#${x.data.sector.toLowerCase()}`);
 
 const schema = [
   {
@@ -43,7 +44,7 @@ const schema = [
   schema={schema}
 >
   <section aria-label="Project" class="wrap main">
-    <a href="/projects/" class="back">← All projects</a>
+    <a href={href('/projects/')} class="back">← All projects</a>
     <div class="head">
       <div>
         <div class="kicker">{cs.kicker}</div>
@@ -80,7 +81,7 @@ const schema = [
           {p.year && <><dt>Completed</dt><dd>{p.year}</dd></>}
           {cs.architect && <><dt>Architect</dt><dd>{cs.architect}</dd></>}
         </dl>
-        <a href="/contact/" class="btn btn-brick facts-cta">Quote a project like this</a>
+        <a href={href('/contact/')} class="btn btn-brick facts-cta">Quote a project like this</a>
       </aside>
     </div>
 

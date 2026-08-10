@@ -1,0 +1,37 @@
+name: Fetch real photos into the repo
+
+# Manual run: Actions tab → "Fetch real photos into the repo" → Run workflow.
+# Downloads the originals from the old site (GitHub runners have normal
+# internet access) and commits them to main, replacing the placeholders.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Download photos from the old site
+        working-directory: site
+        run: node scripts/fetch-assets.mjs
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/src/assets/photos
+          if git diff --cached --quiet; then
+            echo "No changes — photos already current."
+          else
+            git commit -m "Replace placeholder images with real photos from the old site"
+            git push origin main
+          fi

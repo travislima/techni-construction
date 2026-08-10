@@ -2,6 +2,7 @@
 import { getImage, Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import { href } from '../lib/paths';
 import CTABand from '../components/CTABand.astro';
 import { SITE } from '../config';
 import heroSrc from '../assets/photos/venter-1.jpg';
@@ -20,9 +21,9 @@ const heroAlt =
 const projects = await getCollection('projects');
 const bySlug = (id: string) => projects.find((p) => p.id === id)!;
 const flagships = [
-  { p: bySlug('house-venter'), href: '/projects/house-venter/' },
-  { p: bySlug('south-city-office-block'), href: '/projects/#commercial' },
-  { p: bySlug('steinbuild-walker-drive-buco'), href: '/projects/#industrial' },
+  { p: bySlug('house-venter'), href: href('/projects/house-venter/') },
+  { p: bySlug('south-city-office-block'), href: href('/projects/#commercial') },
+  { p: bySlug('steinbuild-walker-drive-buco'), href: href('/projects/#industrial') },
 ];
 const count = (s: string) => projects.filter((p) => p.data.sector === s).length;
 
@@ -89,8 +90,8 @@ const schema = [
         since 1993.
       </p>
       <div class="hero-ctas">
-        <a href="/projects/" class="btn btn-white">View our work</a>
-        <a href="/contact/" class="btn btn-ghost-light">Request a quote</a>
+        <a href={href('/projects/')} class="btn btn-white">View our work</a>
+        <a href={href('/contact/')} class="btn btn-ghost-light">Request a quote</a>
       </div>
     </div>
   </section>
@@ -111,7 +112,7 @@ const schema = [
         <div class="kicker">Selected work</div>
         <h2 class="section">Three sectors. One standard.</h2>
       </div>
-      <a href="/projects/" class="link-underline">All {projects.length} projects →</a>
+      <a href={href('/projects/')} class="link-underline">All {projects.length} projects →</a>
     </div>
     <div class="flagship-grid">
       {flagships.map(({ p, href }) => {
@@ -140,19 +141,19 @@ const schema = [
 
   <section aria-label="Sectors" class="wrap sectors-outer">
     <div class="sectors">
-      <a href="/projects/#residential">
+      <a href={href('/projects/#residential')}>
         <div class="s-count">01 — {count('Residential')} PROJECTS</div>
         <div class="s-name">Residential</div>
         <p>Upmarket homes, estates and lodges — from Royalston to Greater Addo. Owner-builders and architects welcome.</p>
         <div class="s-link">See residential work →</div>
       </a>
-      <a href="/projects/#commercial">
+      <a href={href('/projects/#commercial')}>
         <div class="s-count">02 — {count('Commercial')} PROJECTS</div>
         <div class="s-name">Commercial</div>
         <p>Offices, retail and fit-outs — including South City, Weylandts, Algoa FM and Coca-Cola Sabco.</p>
         <div class="s-link">See commercial work →</div>
       </a>
-      <a href="/projects/#industrial">
+      <a href={href('/projects/#industrial')}>
         <div class="s-count">03 — {count('Industrial')} PROJECTS</div>
         <div class="s-name">Industrial</div>
         <p>Warehousing, plants and business parks — for clients like Ford, NOV and Formex &amp; Lear.</p>
@@ -170,7 +171,7 @@ const schema = [
           Architects, quantity surveyors and developers shortlist in minutes.
           Our credentials page answers the vetting questions without a phone call.
         </p>
-        <a href="/credentials/" class="btn btn-ink">View credentials</a>
+        <a href={href('/credentials/')} class="btn btn-ink">View credentials</a>
       </div>
       <div class="stat-grid stats">
         <div><div class="stat-n">7 GB</div><div class="stat-l">CIDB GRADING</div></div>
@@ -205,7 +206,7 @@ const schema = [
         deliberate focus on developing historically disadvantaged individuals
         and small businesses.
       </p>
-      <a href="/about/" class="link-underline">Our story →</a>
+      <a href={href('/about/')} class="link-underline">Our story →</a>
     </div>
   </section>
 

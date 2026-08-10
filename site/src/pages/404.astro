@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { href } from '../lib/paths';
 ---
 
 <Base
@@ -14,9 +15,9 @@ import Base from '../layouts/Base.astro';
       exists — start from one of these:
     </p>
     <div class="links">
-      <a href="/" class="btn btn-ink">Home</a>
-      <a href="/projects/" class="btn btn-brick">Our projects</a>
-      <a href="/contact/" class="link-underline" style="align-self:center">Contact the office →</a>
+      <a href={href('/')} class="btn btn-ink">Home</a>
+      <a href={href('/projects/')} class="btn btn-brick">Our projects</a>
+      <a href={href('/contact/')} class="link-underline" style="align-self:center">Contact the office →</a>
     </div>
   </section>
 </Base>

@@ -2,6 +2,7 @@
 // The full-width call-to-action band used at the foot of most pages.
 // variant "brick" = enquiry band with phone; variant "ink" = dark band.
 import { SITE } from '../config';
+import { href } from '../lib/paths';
 
 interface Props {
   variant?: 'brick' | 'ink';
@@ -21,7 +22,7 @@ const { variant = 'brick', heading, sub, showPhone = true } = Astro.props;
     <div class="actions">
       {showPhone && <a href={SITE.phoneHref} class="phone">{SITE.phoneDisplay}</a>}
       <slot>
-        <a href="/contact/" class:list={['btn', variant === 'brick' ? 'btn-white-on-brick' : 'btn-white']}>Request a quote</a>
+        <a href={href('/contact/')} class:list={['btn', variant === 'brick' ? 'btn-white-on-brick' : 'btn-white']}>Request a quote</a>
       </slot>
     </div>
   </div>

@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import { href } from '../lib/paths';
 import CTABand from '../components/CTABand.astro';
 import gregg from '../assets/photos/leader-gregg.jpg';
 import leon from '../assets/photos/leader-leon.jpg';
@@ -102,8 +103,8 @@ const values = [
   </section>
 
   <CTABand variant="ink" heading="See the work the team delivers." showPhone={false}>
-    <a href="/projects/" class="btn btn-white">View projects</a>
-    <a href="/credentials/" class="btn btn-ghost-light">Credentials</a>
+    <a href={href('/projects/')} class="btn btn-white">View projects</a>
+    <a href={href('/credentials/')} class="btn btn-ghost-light">Credentials</a>
   </CTABand>
 </Base>
 

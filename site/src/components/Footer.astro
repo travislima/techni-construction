@@ -1,5 +1,6 @@
 ---
 import { SITE } from '../config';
+import { href } from '../lib/paths';
 const year = new Date().getFullYear();
 ---
 
@@ -30,11 +31,11 @@ const year = new Date().getFullYear();
     <div>
       <div class="colhead">SITE</div>
       <nav aria-label="Footer">
-        <a href="/projects/">Projects</a>
-        <a href="/about/">About</a>
-        <a href="/credentials/">Credentials</a>
-        <a href="/careers/">Careers</a>
-        <a href="/contact/">Request a quote</a>
+        <a href={href('/projects/')}>Projects</a>
+        <a href={href('/about/')}>About</a>
+        <a href={href('/credentials/')}>Credentials</a>
+        <a href={href('/careers/')}>Careers</a>
+        <a href={href('/contact/')}>Request a quote</a>
       </nav>
     </div>
   </div>

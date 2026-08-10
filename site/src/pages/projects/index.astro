@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { href } from '../../lib/paths';
 import ProjectCard from '../../components/ProjectCard.astro';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
@@ -36,7 +37,7 @@ const count = (s: string) => projects.filter((p) => p.data.sector === s).length;
         Looking for something specific — a sector, a value band, a reference?
         Our full project records go back to 1993.
       </p>
-      <a href="/contact/" class="btn btn-brick">Ask about our portfolio</a>
+      <a href={href('/contact/')} class="btn btn-brick">Ask about our portfolio</a>
     </div>
   </section>
 </Base>

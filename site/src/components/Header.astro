@@ -2,19 +2,20 @@
 import { Image } from 'astro:assets';
 import logo from '../assets/photos/logo.png';
 import { SITE } from '../config';
+import { href } from '../lib/paths';
 
 const nav = [
-  ['/projects/', 'Projects'],
-  ['/about/', 'About'],
-  ['/credentials/', 'Credentials'],
-  ['/careers/', 'Careers'],
-  ['/contact/', 'Contact'],
+  [href('/projects/'), 'Projects'],
+  [href('/about/'), 'About'],
+  [href('/credentials/'), 'Credentials'],
+  [href('/careers/'), 'Careers'],
+  [href('/contact/'), 'Contact'],
 ];
 ---
 
 <header>
   <div class="bar wrap">
-    <a href="/" class="brand" aria-label="Techni Construction — home">
+    <a href={href('/')} class="brand" aria-label="Techni Construction — home">
       <Image src={logo} alt="Techni Construction logo" width={42} height={42} densities={[1, 2]} loading="eager" class="logo" />
       <span class="wordmark">
         <span class="w1">TECHNI</span>
@@ -25,7 +26,7 @@ const nav = [
       {nav.map(([href, label]) => <a href={href}>{label}</a>)}
     </nav>
     <a href={SITE.phoneHref} class="phone">{SITE.phoneDisplay}</a>
-    <a href="/contact/" class="quote-btn">Request a quote</a>
+    <a href={href('/contact/')} class="quote-btn">Request a quote</a>
   </div>
 </header>
 

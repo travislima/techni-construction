@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import { href } from '../lib/paths';
 
 interface Props {
   project: CollectionEntry<'projects'>;
@@ -9,7 +10,7 @@ const { project } = Astro.props;
 const p = project.data;
 const tag = [p.sector, p.location].filter(Boolean).join(' · ');
 const meta = [p.size, p.value, p.year].filter(Boolean).join(' · ');
-const detailUrl = p.caseStudy ? `/projects/${project.id}/` : undefined;
+const detailUrl = p.caseStudy ? href(`/projects/${project.id}/`) : undefined;
 ---
 
 <div class="pcard" data-sector={p.sector}>
