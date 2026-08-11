@@ -1,0 +1,123 @@
+<title>Techni Construction — website comparison</title>
+<style>
+  :root {
+    --paper: #F5F2ED; --ink: #211B16; --soft: #57503F; --line: #E2DCD2;
+    --brick: #8A2B1D; --old: #8C4A42; --new: #3E6B3A;
+    --sans: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --mono: "SF Mono", Consolas, Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+  .page { max-width: 760px; margin: 0 auto; padding: 56px 24px 72px; }
+
+  .eyebrow { font: 700 12px var(--mono); letter-spacing: .2em; color: var(--brick); text-transform: uppercase; margin: 0 0 14px; }
+  h1 { font: 900 clamp(28px, 5vw, 40px)/1.1 var(--sans); letter-spacing: -.02em; margin: 0 0 10px; text-wrap: balance; }
+  .intro { font-size: 15.5px; line-height: 1.55; color: var(--soft); margin: 0 0 8px; max-width: 60ch; }
+  .links { font-size: 14px; line-height: 1.7; color: var(--soft); margin: 0 0 30px; }
+  .links a { color: var(--brick); }
+
+  .tablebox { overflow-x: auto; background: #FFF; border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; min-width: 560px; }
+  th { font: 700 11.5px var(--mono); letter-spacing: .12em; text-transform: uppercase; text-align: left; color: var(--soft); padding: 14px 16px 10px; border-bottom: 2px solid var(--ink); }
+  td { padding: 13px 16px; border-bottom: 1px solid var(--line); vertical-align: top; line-height: 1.45; }
+  tr:last-child td { border-bottom: none; }
+  td.what { font-weight: 600; width: 34%; }
+  td.old { color: var(--old); }
+  td.new { color: var(--new); font-weight: 700; }
+  td .sub { display: block; font-weight: 400; font-size: 12.5px; color: #8C8378; margin-top: 3px; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .context { margin: 26px 0 0; font-size: 14px; line-height: 1.6; color: var(--soft); max-width: 62ch; }
+  .sources { margin: 30px 0 0; border-top: 2px solid var(--ink); padding-top: 16px; }
+  .sources h2 { font: 700 12px var(--mono); letter-spacing: .16em; text-transform: uppercase; margin: 0 0 10px; color: var(--ink); }
+  .sources ul { margin: 0; padding-left: 18px; font-size: 12.5px; line-height: 1.7; color: var(--soft); }
+  @media print { body { background: #FFF; } .page { padding-top: 24px; } }
+</style>
+
+<div class="page">
+  <p class="eyebrow">Website comparison · Techni Construction</p>
+  <h1>The current site and the rebuilt site, measured with the same tools.</h1>
+  <p class="intro">
+    Both sites were tested with Google's public testing tools and a standard
+    Chrome browser on 9–10 August 2026. Nothing below is an opinion; each row
+    lists the tool that produced it.
+  </p>
+  <p class="links">
+    Current site: <a href="https://www.techniconstruction.co.za">techniconstruction.co.za</a><br />
+    Rebuilt site (temporary address until switch-over):
+    <a href="https://travislima.github.io/techni-construction/">travislima.github.io/techni-construction</a>
+  </p>
+
+  <div class="tablebox">
+    <table>
+      <thead>
+        <tr><th>What was measured</th><th>Current site</th><th>Rebuilt site</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="what">Wait before the page appears<span class="sub">Real Chrome browser session (Web Vitals extension)</span></td>
+          <td class="old num">9.3 seconds</td>
+          <td class="new num">0.7 seconds</td>
+        </tr>
+        <tr>
+          <td class="what">Server response time<span class="sub">Same browser session</span></td>
+          <td class="old num">2.8 s — rated "Poor"</td>
+          <td class="new num">0.5 s — rated "Good"</td>
+        </tr>
+        <tr>
+          <td class="what">Google speed score, phone test<span class="sub">Google PageSpeed / Lighthouse 13.4.1, identical settings</span></td>
+          <td class="old num">65 / 100 <span class="sub">main image visible at 8.0 s</span></td>
+          <td class="new num">95 / 100 <span class="sub">main image visible at 2.7 s</span></td>
+        </tr>
+        <tr>
+          <td class="what">Google's quality checks<span class="sub">Accessibility · Best practices · Search basics (same tool)</span></td>
+          <td class="old num">96 · 96 · 92</td>
+          <td class="new num">100 · 100 · 100</td>
+        </tr>
+        <tr>
+          <td class="what">Data downloaded to view the homepage<span class="sub">Lighthouse measurement</span></td>
+          <td class="old num">3,225 KB</td>
+          <td class="new num">359 KB</td>
+        </tr>
+        <tr>
+          <td class="what">Completed projects shown<span class="sub">Counted on each site</span></td>
+          <td class="old num">5</td>
+          <td class="new num">18, incl. a House Venter case study</td>
+        </tr>
+        <tr>
+          <td class="what">The title Google shows in search results<span class="sub">Google's index / page code</span></td>
+          <td class="old">"Techni Construction – Techni Construction"</td>
+          <td class="new">"Construction Company Port Elizabeth (Gqeberha) | Techni Construction"</td>
+        </tr>
+        <tr>
+          <td class="what">Photos with written descriptions<span class="sub">Used by Google and by screen readers; counted in page code</span></td>
+          <td class="old num">2 of 13</td>
+          <td class="new num">31 of 31</td>
+        </tr>
+        <tr>
+          <td class="what">Ways to send an enquiry<span class="sub">Checked on each site</span></td>
+          <td class="old">Phone and fax number</td>
+          <td class="new">Enquiry form, tap-to-call, email</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="context">
+    For context: in June 2026 the current site received an estimated 530
+    visits, with an average visit of 5 seconds (SimilarWeb). The rebuilt site
+    uses the same company information, project names and photographs as the
+    current site — every fact was checked against it, and anything that
+    couldn't be verified was left out.
+  </p>
+
+  <div class="sources">
+    <h2>Tools used</h2>
+    <ul>
+      <li>Google PageSpeed Insights / Lighthouse 13.4.1 — pagespeed.web.dev (free, anyone can re-run these tests)</li>
+      <li>Web Vitals browser extension in Chrome — real page-load measurements, 9–10 Aug 2026</li>
+      <li>SimilarWeb — traffic estimate for techniconstruction.co.za, June 2026</li>
+      <li>Google search index and each site's own page code — titles, photo descriptions, project counts</li>
+    </ul>
+  </div>
+</div>
